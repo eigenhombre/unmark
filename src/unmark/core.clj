@@ -3,10 +3,11 @@
 
 
 (defn ^:private head []
-  [:head [:link {:rel "stylesheet", :href "resources/tufte-css/tufte.css"}]])
+  [:head [:link {:rel "stylesheet", :href "tufte-css/tufte.css"}]])
 
 
 (def sections (atom []))
+
 
 (defn section [header & body]
   (swap! sections conj header)
@@ -98,5 +99,6 @@
 
 ")))
   [:p (count @sections) " sections."]))
+
 
 (clojure.java.shell/sh "open" "index.html")
