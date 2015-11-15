@@ -9,10 +9,24 @@
 (def sections (atom []))
 
 
+(defn replace-quotes [txt]
+  (if-not (string? txt)
+    txt
+    (-> txt
+        (clojure.string/replace #"’" "&rsquo;")
+        (clojure.string/replace #"”" "&rdquo;")
+        (clojure.string/replace #"–" "&mdash;")
+        (clojure.string/replace #"“" "&ldquo;")
+        (clojure.string/replace #"…" "&hellip;"))))
+
+
 (defn section [header & body]
   (swap! sections conj header)
   `([:h1 ~header]
-    ~@(map (partial vector :p) (remove map? body))))
+    ~@(->> body
+           (remove map?)
+           (clojure.walk/postwalk replace-quotes)
+           (map (partial vector :p)))))
 
 
 (defn subsection [header & body]
@@ -25,10 +39,18 @@
     ~@(map (partial vector :p) (remove map? body))))
 
 
+(defn footer []
+  [:p "Created with "
+   [:a {:href "https://github.com/eigenhombre/unmark"} "unmark"]
+   ".  CSS by "
+   [:a {:href "https://edwardtufte.github.io/tufte-css/"} "Tufte-CSS"] "."])
+
+
 (defn content [& body]
   (html
    (head)
-   (vec (list* :body body))))
+   (vec (list* :body body))
+   (footer)))
 
 
 (defn sidenote [txt]
@@ -43,51 +65,94 @@
   [:pre [:code txt]])
 
 
-(spit
- "index.html"
- (content
-  (section "Working with Me"
-    {:created "2015-11-14"}
+(defn postbody [& forms]
+  `[:div ~@forms])
 
-    (subsection "Practices I Like"
-      (subsubsection "\"Test First\"")
-      (subsubsection "Promiscuous pairing"
-        "\"You gettee in,\" he added, motioning to me with his tomahawk,
-    and throwing the clothes to one side. He really did this in not
-    only a civil but a really kind and charitable way. I stood looking
-    at him a moment. For all his tattooings he was on the whole a
-    clean, comely looking cannibal. What's all this fuss I have been
-    making about, thought I to myself—the man's a human being just as
-    I am: he has just as much reason to fear me, as I have to be
-    afraid of him. Better sleep with a sober cannibal than a drunken
-    Christian." " \"Landlord,\" said I, \"tell him to stash his
-    tomahawk there, or pipe, or whatever you call it; tell him to stop
-    smoking, in short, and I will turn in with him. But I don't fancy
-    having a man smoking in bed with me. It's dangerous. Besides, I
-    ain't insured.\""))
-    (subsection "Tools I Use"
-      (subsubsection "Clojure"
-        [:span "Biltong capicola tri-tip strip steak sirloin
-        ribeye cow ball tip sausage leberkas turkey swine
-        kielbasa rump. Ribeye boudin ground round pork
-        landjaeger, jerky fatback short loin tongue strip
-        steak flank sirloin pig pastrami. Swine shankle
-        tongue leberkas venison, biltong beef ribs flank
-        spare ribs jerky bresaola tenderloin
-        kielbasa. Pork filet mignon shoulder meatball
-        andouille frankfurter biltong chicken swine doner
-        alcatra boudin hamburger bresaola ribeye. T-bone
-        sausage chicken, andouille frankfurter sirloin
-        drumstick alcatra turkey venison salami. Pancetta
-        pork chop shank, fatback ball tip"
-         (sidenote "Enough meat for ya?")
-         " corned beef drumstick pork belly hamburger pork
-        loin porchetta pig. Pancetta t-bone prosciutto
-        turkey, leberkas venison brisket andouille."])
-      (subsubsection "Emacs"))
-    (subsection "Expertise"
-      "Code goes here."
-      (code "(def times (iterate #(+ % (rand-int 1000)) 0))
+
+(def posts (atom {}))
+
+
+(defmacro defpost
+  ([title slug body]
+   `(defpost ~title ~slug {} ~body))
+  ([title slug meta body]
+   `(swap! posts assoc ~slug ~(merge meta
+                                     {:title title
+                                      :slug slug
+                                      :body body}))))
+
+
+(defn img [nom]
+  (let [fname (format "img/%s.jpg" nom)]
+    (assert (.exists (clojure.java.io/file fname)))
+    [:a {:href fname} [:img {:src fname}]]))
+
+
+(defpost "Lazy Physics"
+  "lazy-physics"
+  (postbody
+   (section "Lazy Physics"
+     [:em "... in which we explore lazy sequences and common
+     functional idioms in Clojure via the example of looking for
+     (nearly-)coincident clusters of times in a series."]
+     "A fundamental technical problem in experimental particle physics
+     is how to distinguish the signatures of particles from
+     instrumental noise."
+     (img "birds-on-wires")
+     [:span "Imagine a tree full of hundreds of sparrows, each nesting
+     on a branch, each chirping away occasionally. Suddenly, for a
+     brief moment, they all start chirping vigorously (maybe a hawk
+     flew past). A clustering of chirps in time is the signal that "
+      [:span [:em "something has happened!"] " The analogous situation occurs
+     in instruments consisting of many similar detector elements, each
+     generating some amount of random noise that, on its own, is
+     indistinguishable from any evidence left by particles, but which,
+     taken together, signals that, again, " [:em "something has
+     happened"] " - a muon, an electron, a neutrino has left a sudden
+     spume of electronic evidence in your instrument, waiting to be
+     read out and distinguished from the endless noise."]]
+     [:span "This process of separating the noise from the signal is
+     known in physics as " [:em "triggering"] " and is typically done
+     through some combination of spatial or time clustering; in many
+     cases, time is the simplest to handle and the first \"line of
+     defense\" against being overrun by too much data. (It is often
+     impractical to consume all the data generated by all the elements
+     - data reduction is the name of the game at most stages of these
+     experiments.)"]
+     [:span "This data is typically generated
+     continously " [:em "ad infinitum"] ", and must therefore be processed
+     differently than, say, a single file on disk. Such infinite
+     sequences of data are an excellent fit for the functional pattern
+     known as " [:em "laziness"] ", in which, rather than chewing up all
+     your RAM and/or hard disk space, data is consumed and transformed
+     only as needed / as available. This kind of processing is baked
+     into Clojure at many levels and throughout its library of core
+     functions, dozens of which can be combined (\"composed\") to
+     serve an endless variety of data transformations. (This style of
+     data wrangling is also available in Python via generators and
+     functional libraries such as "
+      [:a {:href "http://toolz.readthedocs.org/"} "Toolz"] ".)"]
+     "Prompted by a recent question on the topic from a physicist and
+     former colleague, I got to thinking about the classic problem of
+     triggering, and realized that the time series trigger provides a
+     nice showcase for Clojure’s core library and for processing lazy
+     sequences. The rest of this post will describe a simple trigger,
+     essentially what particle astrophysicists I know call a \"simple
+     majority trigger\"; or a \"simple multiplicity trigger\" (depending
+     on whom you talk to)."
+     [:span "Now for some Clojure code. (A small amount of familiarity with
+     Clojure’s simple syntax is recommended for maximum understanding
+     of what follows.) We will build up our understanding through a
+     series of successively more complex code snippets. The exposition
+     follows closely what one might do in the Clojure REPL, building
+     up successively more complete examples. In each case, we use "
+      [:code "take"] " to limit what would otherwise be infinite
+     sequences of data (so that our examples can terminate without
+     keeping us waiting
+     forever...)."]
+     "First we create a sorted, infinite series of ever-increasing
+     times (in, say, nsec):"
+     (code "(def times (iterate #(+ % (rand-int 1000)) 0))
 ;; Caution: infinite sequence...
 
 (take 30 times)
@@ -96,9 +161,171 @@
 (0 955 1559 2063 2735 2858 3542 4067 4366 5246 5430 6168 7127 7932
  8268 8929 9426 9918 10436 10850 11680 12367 12569 13343 14155 14420
  15062 15171 15663 16355)
+")
+     [:span [:code "times"]
+      " is an infinite (but “unrealized”) series, constructed by
+     iterating the anonymous function " [:code "#(+ % (rand-int 1000))"] " which
+     adds a random integer from 0 to 999 to its argument (starting
+     with zero). The fact that it is infinite does not prevent us from
+     defining it or (gingerly) interrogating it via " [:code "take"] "."
+      (sidenote [:span "To model a "
+                 [:a {:href "http://en.wikipedia.org/wiki/Poisson_process"}
+                  "Poisson"]
+                 " process – one in which any given event time is independent of
+      the future or past times – one would normally choose an
+      exponential rather than a uniformly flat distribution of time
+      differences, but this is not important for our discussion, so, in
+      the interest of simplicity, we’ll go with what we have
+      here."])]
+     [:span "Now, the way we’ll look for excesses is to look for
+     groupings of hits (say, eight of them) whose first and last hit
+     times are within 1 microsecond (1000 nsec) of each other. To start,
+     there is a handy function called " [:code "partition"] " which
+     groups a series in blocks of fixed length:"]
+     (code "(take 10 (partition 8 times))
 
-")))
-  [:p (count @sections) " sections."]))
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ (9426 9918 10436 10850 11680 12367 12569 13343)
+ (14155 14420 15062 15171 15663 16355 16700 16947)
+ (17919 17949 18575 18607 18849 19597 20410 20680)
+ (20737 21289 21315 21323 21426 21637 22422 23000)
+ (23477 24351 24426 25106 25861 26568 27511 28332)
+ (29071 29831 29957 30761 31073 31914 32591 33187)
+ (33878 34739 34842 35674 36444 36960 36983 37400)
+ (37587 38012 38969 39131 39317 40135 40587 40759))")
+     "We’ll rewrite this using Clojure’s thread-last macro, which is a
+     very helpful tool for rewriting nested expressions as a more
+     readable pipeline of successive function applications:"
+     (code "(->> times
+     (partition 8)
+     (take 10))
+
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ ...same as above...)")
+     [:span "However, this isn’t quite what we want, because it won’t
+     find clusters of times close together who don’t happen to begin
+     on our " [:code "partition"] " boundaries. To fix this, we use
+     the optional " [:code "step"] " argument to " [:code "partition"] ":"]
+     (code "(->> times
+     (partition 8 1)
+     (take 10))
+
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (955 1559 2063 2735 2858 3542 4067 4366)
+ (1559 2063 2735 2858 3542 4067 4366 5246)
+ (2063 2735 2858 3542 4067 4366 5246 5430)
+ (2735 2858 3542 4067 4366 5246 5430 6168)
+ (2858 3542 4067 4366 5246 5430 6168 7127)
+ (3542 4067 4366 5246 5430 6168 7127 7932)
+ (4067 4366 5246 5430 6168 7127 7932 8268)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ (5246 5430 6168 7127 7932 8268 8929 9426))")
+     [:span "This is getting closer to what we want–if you look
+     carefully, you’ll see that each row consists of the previous one
+     shifted by one element. The next step is to grab (via " [:code "map"] ")
+     the first and last times of each group, using " [:code "juxt"] " to apply
+     both " [:code "first"] " and " [:code "last"] " to each subsequence…"]
+     (code "(->> times
+     (partition 8 1)
+     (map (juxt last first))
+     (take 10))
+
+;;=>
+([4067 0]
+ [4366 955]
+ [5246 1559]
+ [5430 2063]
+ [6168 2735]
+ [7127 2858]
+ [7932 3542]
+ [8268 4067]
+ [8929 4366]
+ [9426 5246])")
+     "… and turn these into time differences:"
+     (code "(->> times
+     (partition 8 1)
+     (map (comp (partial apply -) (juxt last first)))
+     (take 10))
+
+;;=>
+(4067 3411 3687 3367 3433 4269 4390 4201 4563 4180)
+")
+     [:span "Note that so far these time differences are all > 1000. "
+      [:code "comp"] ", above, turns a collection of multiple
+      functions into a new function which is the composition of these
+      functions, applied successively one after the other
+      (right-to-left). " [:code "partial"] " turns a function of
+      multiple arguments into a function of fewer arguments, by
+      binding one or more of the arguments in a new function. For
+      example,"]
+     (code "((partial + 2) 3)
+
+;;=>
+5
+
+((comp (partial apply -) (juxt last first)) [3 10])
+
+;;=>
+7")
+     [:span "Recall that we only want events whose times are close to
+     each other; say, whose duration is under a maximum limit of 1000
+     nsec. In general, to select only the elements of a sequence which
+     satisfy a filter function, we use " [:code "filter"] ":"]
+     (code "(->> times
+     (partition 8 1)
+     (map (comp (partial apply -) (juxt last first)))
+     (filter (partial > 1000))
+     (take 10))
+
+;;=>
+(960 942 827 763 597 682 997 836 986 966)")
+     [:span "(" [:code "(partial > 1000)"] " is a function of one
+     argument which returns true if that argument is strictly less
+     than 1000.)"]
+     "Great! We now have total “durations”; for subsequences of 8
+     times, where the total durations are less than 1000 nsec."
+     "But this is not actually that helpful. It would be better if we
+     could get both the total durations and the actual subsequences
+     satisfying the requirement (the analog of this in a real physics
+     experiment would be returning the actual hit data falling inside
+     the trigger window)."
+     [:span "To do this, " [:code "juxt"] " once again comes to the
+     rescue, by allowing us to juxt-apose the original data along side
+     the total duration to show both together…"])))
+
+
+(defpost "Working With Me"
+  "working-w-me"
+  (postbody
+   (section "Working with Me"
+     {:created "2015-11-14"}
+     [:div {:class "epigraph"}
+      [:blockquote
+       "Great things are done by a series of small things brought together."
+       [:footer "Vincent Van Gogh"]]]
+
+     (subsection "Practices I Like"
+       (subsubsection "\"Test First\"")
+       (subsubsection "Promiscuous pairing"
+         "..."))
+     (subsection "Tools I Use"
+       (subsubsection "Clojure"
+         "...")
+       (subsubsection "Emacs"))
+     (subsection "Technical Strengths"
+       [:ul [:li "Debugging"]]
+       "..."))))
+
+(spit
+ "index.html"
+ (content
+  (for [[k v] @posts]
+    (:body v))))
 
 
 (clojure.java.shell/sh "open" "index.html")
