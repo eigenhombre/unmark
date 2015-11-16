@@ -9,7 +9,8 @@ your favorite JavaScript Web editor.
 
 # Why
 
-Approaches I've tried (with varying degrees of success) for my personal Web sites and blogs (since 1994):
+Approaches I've tried, with varying degrees of success, for my
+personal Web sites and blogs, since 1994:
 
 - Hand-written HTML
 - Hand-rolled Perl scripts
