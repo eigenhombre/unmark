@@ -52,4 +52,4 @@ the content so that `unmark` can be useful for others.
 # How
 
 The code is moving very fast; for now, have a look at `posts.clj`,
-`impl.clj` and `posts.clj`.
+`impl.clj` and `core.clj`.
