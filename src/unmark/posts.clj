@@ -11,7 +11,15 @@
      Clojure team."  "I care about making outstanding software and outstanding
      teams based on respect, communication, focus, care, and craft.  I'm also
      passionate about art and science (I went to graduate school in art and
-     physics and have a doctorate in high energy particle astrophysics).")))
+     physics and have a doctorate in high energy particle astrophysics)."
+     [:span
+      [:a {:href "https://github.com/eigenhombre"} "GitHub"]
+      " | "
+      [:a {:href "http://stackoverflow.com/users/611752/johnj"} "StackOverflow"]
+      " | "
+      [:a {:href "https://twitter.com/eigenhombre"} "Twitter"]
+      " | "
+      [:a {:href "https://www.linkedin.com/in/eigenhombre"} "LinkedIn"]])))
 
 
 (defpost "Working With Me"
