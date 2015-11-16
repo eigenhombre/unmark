@@ -3,11 +3,7 @@
             [unmark.posts :refer :all]))
 
 
-(def sections (atom []))
-
-
 (defn section [header & body]
-  (swap! sections conj header)
   `([:h1 ~header]
     ~@(->> body
            (remove map?)
@@ -50,7 +46,8 @@
    [:p
     [:a {:href "about.html"} "about"] "|"
     [:a {:href "content.html"} "all posts"]]
-   [:p "© " (year) " John Jacobsen. Created with "
+   [:p "© " (year) " " [:a {:href "about.html"} "John Jacobsen"]
+    ". Created with "
     [:a {:href "https://github.com/eigenhombre/unmark"} "unmark"]
     ".  CSS by "
     [:a {:href "https://edwardtufte.github.io/tufte-css/"} "Tufte-CSS"] "."]])
@@ -85,7 +82,7 @@
   `[:div ~@forms])
 
 
-(def posts (atom {}))
+(defonce posts (atom {}))
 
 
 (defmacro defpost
@@ -115,21 +112,21 @@
                 (sort-by (comp :created second))
                 reverse
                 (map (comp (juxt :created :slug :title) second)))]
-       [:li date [:a {:href (str slug ".html")} title]])]))
+       [:li date " " [:a {:href (str slug ".html")} title]])]))
 
 
 (defn render [filename body]
   (spit filename (content body)))
 
 
-(defn all-content []
+(defn generate-blog! []
   (render "content.html" (toc))
   (doseq [[slug {:keys [title body]}] @posts]
     (render (str slug ".html") body))
-  (content
-   (toc)
-   (->> @posts
-        (remove (comp :draft second))
-        (sort-by (comp :created second))
-        reverse
-        (map (comp :body second)))))
+  (render "index.html"
+          (->> @posts
+               (remove (comp :draft second))
+               (sort-by (comp :created second))
+               last
+               second
+               :body)))

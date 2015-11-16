@@ -2,6 +2,50 @@
   (:require [unmark.impl :refer :all]))
 
 
+(defpost "About"
+  "about"
+  (postbody
+   (section "About me, and this site"
+     "I'm a software developer living (mostly) in Chicago, Illinois, USA.  I
+     currently work at OpinionLab, where I am a senior dev on their backend
+     Clojure team."  "I care about making outstanding software and outstanding
+     teams based on respect, communication, focus, care, and craft.  I'm also
+     passionate about art and science (I went to graduate school in art and
+     physics and have a doctorate in high energy particle astrophysics).")))
+
+
+(defpost "Working With Me"
+  "working-w-me"
+  {:created "2015-11-14"
+   :draft true}
+  (postbody
+   (section "Working with Me"
+     (epigraph "Great things are done by a series of small things brought
+       together." "Vincent Van Gogh")
+     (subsection "Practices I Like"
+       (subsubsection "“Test First”")
+       (subsubsection "Promiscuous Pairing")
+       (subsubsection "Solo Programming")
+       (subsubsection "Retrospectives")
+       (subsubsection "Kanban over Scrum")
+       (subsubsection "Clean code"
+         "Whenever I touch a piece of code, I try to leave it in better shape
+         than I found it in.  I use style guides and build style checking
+         tools into automated builds, because I've found that better and more
+         readable code results.")
+       (subsubsection "Continuous Integration"))
+     (subsection "Default Tools"
+       "I use the following tools on a daily or near-daily basis."
+       (subsubsection "Clojure")
+       (subsubsection "Emacs"
+         [:span "Configuration "
+          [:a {:href "http://github.com/eigenhombre/emacs-config"} "here"]
+          "."])
+       (subsubsection "Docker"))
+     (subsection "Technical Strengths"
+       (subsubsection "Troubleshooting and debugging")))))
+
+
 (defpost "Lazy Physics"
   "lazy-physics"
   {:created "2015-02-12"}
@@ -333,10 +377,11 @@ performance.)"])))
       [:a {:href
            "https://github.com/gdeer81/marginalia"} "Marginalia"]
       " (Michael Fogus " [:em "et. al."] " made this pretty easy."]
-     [:span "The results are " [:a {:href
-                                    "http://eigenhombre.com/semi-literate-programming/parsepy.html"} "here"]
-      ", as well as on " [:a {:href "https://github.com/eigenhombre/parsepy"}
-                          "GitHub"] "."]
+     [:span "The results are "
+      [:a {:href
+           "http://eigenhombre.com/semi-literate-programming/parsepy.html"}
+       "here"] ", as well as on "
+      [:a {:href "https://github.com/eigenhombre/parsepy"} "GitHub"] "."]
      "My impressions, after doing this project in just a few hours, are that
      (1) literate programming is great fun; and (2) Instaparse sets a new
      standard for power and expressiveness when converting structured text
