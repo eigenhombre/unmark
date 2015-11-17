@@ -5,7 +5,7 @@
 
 Simple blogging using Clojure and Hiccup.  Basically you just write
 Clojure expressions instead of Markdown, HTML, Textile, Org Mode, or
-your favorite JavaScript Web editor.
+somebody's JavaScript Web editor.
 
 # Why
 
@@ -38,12 +38,15 @@ calls:
 
 
     (defpost "Introducing Unmark"
-      "unmark"
+      "unmark"                         ;; "slug" or short name
       (section "Introduction"
         "Unmark is a new blogging framework."
-        [:p "Hiccup can be used " [:em "just about"] "everywhere."]
+        ["Hiccup can be used " [:em "just about"] "everywhere."]
         "But undecorated paragraphs
-         can just be strings."))
+         can just be strings..."
+	["(or vectors if you have "
+	 [:a {:href "https://en.wikipedia.org/wiki/Markup_language"}
+	     "markup"] " in the paragraph)."]))
 
 Right now this is experimental, and optimized for my own blog.  If it
 seems successful over time, I'll decouple the content generator from
