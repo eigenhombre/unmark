@@ -497,7 +497,8 @@ elegance and brevity that Clojure lends the solutions."]
 problem page"]
       " (click on \"RNA codon table\"). I think it's a good example of
 using macros to provide a little bit of syntactic sugar to make the
-code just a little more readable and elegant."]
+code just a little more readable and elegant, or to encode domain facts
+as directly as possible."]
      ["This and my other solutions so far are "
       [:a {:href "https://github.com/eigenhombre/rosalind"} "up on GitHub"]
       "."])))
