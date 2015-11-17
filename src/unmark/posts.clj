@@ -12,8 +12,7 @@
      teams based on respect, communication, focus, care, and craft.  I'm also
      passionate about art and science (I went to graduate school in art and
      physics and have a doctorate in high energy particle astrophysics)."
-     [:span
-      [:a {:href "https://github.com/eigenhombre"} "GitHub"]
+     [[:a {:href "https://github.com/eigenhombre"} "GitHub"]
       " | "
       [:a {:href "http://stackoverflow.com/users/611752/johnj"} "StackOverflow"]
       " | "
@@ -24,15 +23,60 @@
 
 (defpost "Working With Me"
   "working-w-me"
-  {:created "2015-11-14"
-   :draft true}
+  {:created "2015-11-14"}
   (postbody
    (section "Working with Me"
      (epigraph "Great things are done by a series of small things brought
        together." "Vincent Van Gogh")
+     (subsection "Some things about me"
+       "In no particular order: I tend to acquire a reputation as the
+       \"clean code guy.\" I prefer to retire technical debt sooner rather
+       than later. I like to strike the right balance between thinking
+       things through in advance, and coding experimentally,
+       discovering the truths of the problem at hand as I work. I
+       enjoy tackling easy problems, because it's satisfying to get
+       things done quickly, and I like hard problems that make one
+       grow, think, and do things one never imagined was possible. I
+       like a mix of coding solo and working closely with others. I
+       like working in beautiful environments that stoke creativity
+       and passion. I am opinionated, especially with regards to the
+       tools and approaches I've arrived at through many years of
+       growth, but I love learning new things from thoughtful people
+       who are good at their craft.")
      (subsection "Practices I Like"
-       (subsubsection "“Test First”")
-       (subsubsection "Promiscuous Pairing")
+       (subsubsection "\"Test First\""
+         ["I am not a TDD zealot, but I've had my tuchas saved
+          many times by automated tests, and been burned more than a
+          few by not having them. True TDD"
+          (sidenote "Write the right minimum failing test first; write
+          the minimum production code needed to make all tests pass;
+          refactor to get to clean, DRY code; repeat.")  " is not
+          without its costs, but it is one of my favorite strategies
+          for ensuring good test coverage and, often, better design. I
+          frequently combine REPL development and higher-level,
+          end-to-end tests rather than testing slavishly at multiple
+          levels of abstraction. I keep in mind the cost of tests in
+          terms of code \"stiffness\" and try to write the "
+          [:em "right"] " tests."])
+       (subsubsection "Continuous Testing"
+         "Most or all tests get run every time you save the file (at
+         least), as often as once per minute or so. If your tests take
+         too long for this to work, there's probably an architectural
+         or performance problem that needs to be looked at.")
+       (subsubsection "Promiscuous Pairing"
+         ["The team I currently work on has adopted “promiscuous pairing”"
+          (sidenote "See A. Belshee, " [:em "Promiscuous
+          Pairing and Beginner's Mind (Google for PDF)"])
+          " as a regular practice. We pair-program for 90 minute
+          blocks, switching pairs twice a day (and solo programming or
+          going to meetings the rest of the time)."]
+         "This practice, while often tiring, is a great teaching
+         technique.  At any given time, there is little tactical
+         knowledge that I have that I don't trust my teammates to
+         have, and vice-versa. People who practice promiscuous pairing
+         (including us) relate the pleasures of teaching a technique to
+         someone and then seeing another teammate using the same
+         technique a short time later.")
        (subsubsection "Solo Programming")
        (subsubsection "Retrospectives")
        (subsubsection "Kanban over Scrum")
@@ -46,10 +90,12 @@
        "I use the following tools on a daily or near-daily basis."
        (subsubsection "Clojure")
        (subsubsection "Emacs"
-         [:span "Configuration "
+         ["Configuration "
           [:a {:href "http://github.com/eigenhombre/emacs-config"} "here"]
           "."])
        (subsubsection "Docker"))
+     (subsection "Working with Teams"
+       "...")
      (subsection "Technical Strengths"
        (subsubsection "Troubleshooting and debugging")))))
 
@@ -66,27 +112,27 @@
      is how to distinguish the signatures of particles from
      instrumental noise."
      (img "birds-on-wires")
-     [:span "Imagine a tree full of hundreds of sparrows, each nesting
+     ["Imagine a tree full of hundreds of sparrows, each nesting
      on a branch, each chirping away occasionally. Suddenly, for a
      brief moment, they all start chirping vigorously (maybe a hawk
      flew past). A clustering of chirps in time is the signal that "
-      [:span [:em "something has happened!"] " The analogous situation occurs
+      [:em "something has happened!"] " The analogous situation occurs
      in instruments consisting of many similar detector elements, each
      generating some amount of random noise that, on its own, is
      indistinguishable from any evidence left by particles, but which,
      taken together, signals that, again, " [:em "something has
-     happened"] " - a muon, an electron, a neutrino has left a sudden
+     happened"] "--a muon, an electron, a neutrino has left a sudden
      spume of electronic evidence in your instrument, waiting to be
-     read out and distinguished from the endless noise."]]
-     [:span "This process of separating the noise from the signal is
+     read out and distinguished from the endless noise."]
+     ["This process of separating the noise from the signal is
      known in physics as " [:em "triggering"] " and is typically done
      through some combination of spatial or time clustering; in many
      cases, time is the simplest to handle and the first \"line of
      defense\" against being overrun by too much data. (It is often
      impractical to consume all the data generated by all the elements
-     - data reduction is the name of the game at most stages of these
+     --data reduction is the name of the game at most stages of these
      experiments.)"]
-     [:span "This data is typically generated
+     ["This data is typically generated
      continously " [:em "ad infinitum"] ", and must therefore be processed
      differently than, say, a single file on disk. Such infinite
      sequences of data are an excellent fit for the functional pattern
@@ -98,7 +144,7 @@
      serve an endless variety of data transformations. (This style of
      data wrangling is also available in Python via generators and
      functional libraries such as "
-      [:a {:href "http://toolz.readthedocs.org/"} "Toolz"] ".)"]
+     [:a {:href "http://toolz.readthedocs.org/"} "Toolz"] ".)"]
      "Prompted by a recent question on the topic from a physicist and
      former colleague, I got to thinking about the classic problem of
      triggering, and realized that the time series trigger provides a
@@ -107,7 +153,7 @@
      essentially what particle astrophysicists I know call a \"simple
      majority trigger\"; or a \"simple multiplicity trigger\" (depending
      on whom you talk to)."
-     [:span "Now for some Clojure code. (A small amount of familiarity with
+     ["Now for some Clojure code. (A small amount of familiarity with
      Clojure’s simple syntax is recommended for maximum understanding
      of what follows.) We will build up our understanding through a
      series of successively more complex code snippets. The exposition
@@ -129,22 +175,22 @@
  8268 8929 9426 9918 10436 10850 11680 12367 12569 13343 14155 14420
  15062 15171 15663 16355)
 ")
-     [:span [:code "times"]
+     [[:code "times"]
       " is an infinite (but “unrealized”) series, constructed by
      iterating the anonymous function " [:code "#(+ % (rand-int 1000))"] " which
      adds a random integer from 0 to 999 to its argument (starting
      with zero). The fact that it is infinite does not prevent us from
      defining it or (gingerly) interrogating it via " [:code "take"] "."
-      (sidenote [:span "To model a "
-                 [:a {:href "http://en.wikipedia.org/wiki/Poisson_process"}
-                  "Poisson"]
-                 " process – one in which any given event time is independent of
+     (sidenote "To model a "
+               [:a {:href "http://en.wikipedia.org/wiki/Poisson_process"}
+                "Poisson"]
+               " process – one in which any given event time is independent of
       the future or past times – one would normally choose an
       exponential rather than a uniformly flat distribution of time
       differences, but this is not important for our discussion, so, in
       the interest of simplicity, we’ll go with what we have
-      here."])]
-     [:span "Now, the way we’ll look for excesses is to look for
+      here.")]
+     ["Now, the way we’ll look for excesses is to look for
      groupings of hits (say, eight of them) whose first and last hit
      times are within 1 microsecond (1000 nsec) of each other. To start,
      there is a handy function called " [:code "partition"] " which
@@ -173,7 +219,7 @@
 ((0 955 1559 2063 2735 2858 3542 4067)
  (4366 5246 5430 6168 7127 7932 8268 8929)
  ...same as above...)")
-     [:span "However, this isn’t quite what we want, because it won’t
+     ["However, this isn’t quite what we want, because it won’t
      find clusters of times close together who don’t happen to begin
      on our " [:code "partition"] " boundaries. To fix this, we use
      the optional " [:code "step"] " argument to " [:code "partition"] ":"]
@@ -192,7 +238,7 @@
  (4067 4366 5246 5430 6168 7127 7932 8268)
  (4366 5246 5430 6168 7127 7932 8268 8929)
  (5246 5430 6168 7127 7932 8268 8929 9426))")
-     [:span "This is getting closer to what we want–if you look
+     ["This is getting closer to what we want–if you look
      carefully, you’ll see that each row consists of the previous one
      shifted by one element. The next step is to grab (via " [:code "map"] ")
      the first and last times of each group, using " [:code "juxt"] " to apply
@@ -222,7 +268,7 @@
 ;;=>
 (4067 3411 3687 3367 3433 4269 4390 4201 4563 4180)
 ")
-     [:span "Note that so far these time differences are all > 1000. "
+     ["Note that so far these time differences are all > 1000. "
       [:code "comp"] ", above, turns a collection of multiple
       functions into a new function which is the composition of these
       functions, applied successively one after the other
@@ -239,7 +285,7 @@
 
 ;;=>
 7")
-     [:span "Recall that we only want events whose times are close to
+     ["Recall that we only want events whose times are close to
      each other; say, whose duration is under a maximum limit of 1000
      nsec. In general, to select only the elements of a sequence which
      satisfy a filter function, we use " [:code "filter"] ":"]
@@ -251,7 +297,7 @@
 
 ;;=>
 (960 942 827 763 597 682 997 836 986 966)")
-     [:span "(" [:code "(partial > 1000)"] " is a function of one
+     ["(" [:code "(partial > 1000)"] " is a function of one
      argument which returns true if that argument is strictly less
      than 1000.)"]
      "Great! We now have total “durations”; for subsequences of 8
@@ -261,7 +307,7 @@
      satisfying the requirement (the analog of this in a real physics
      experiment would be returning the actual hit data falling inside
      the trigger window)."
-     [:span "To do this, " [:code "juxt"] " once again comes to the
+     ["To do this, " [:code "juxt"] " once again comes to the
      rescue, by allowing us to " [:code "juxt"] "-apose the original
      data alongside the total duration to show both together…"]
      (code "(->> times
@@ -295,22 +341,22 @@ time rather than the original data:"
   970]
  [(6752453 6752483 6752522 6752918 6752966 6753008 6753026 6753262)
   809])")
-     [:span "Finally, to turn this into a function for later use, use
-" [:code "defn"] " and remove " [:code "take"] ":"]
+     ["Finally, to turn this into a function for later use, use"
+      [:code "defn"] " and remove " [:code "take"] ":"]
      (code "(defn smt-8 [times]
   (->> times
        (partition 8 1)
        (map (juxt identity (comp (partial apply -) (juxt last first))))
        (filter (comp (partial > 1000) second))))")
-     [:span [:code "smt-8"] " consumes one, potentially infinite
+     [[:code "smt-8"] " consumes one, potentially infinite
 sequence and outputs another, “smaller” (but also potentially
 infinite) lazy sequence of time-clusters-plus-durations, in the form
 shown above."]
      "Some contemplation will suggest many variants; for example, one
-in which some number of hits outside the trigger ”window” are also
+in which some number of hits outside the trigger \"window\" are also
 included in the output.  This is left as an exercise for the advanced
 reader."
-     [:span "A “real” physics trigger would have to deal with many other
+     ["A “real” physics trigger would have to deal with many other
 details: each hit, in addition to its time, would likely have an
 amplitude, a sensor ID, and other data associated with it.  Also, the
 data may not be perfectly sorted, some sensors may drop out of the
@@ -333,7 +379,7 @@ performance.)"])))
   {:created "2013-11-12"}
   (postbody
    (section "Fun with Instaparse"
-     [:span "One of my favorite talks from this month's excellent "
+     ["One of my favorite talks from this month's excellent "
       [:a {:href "http://clojure-conj.org/"} "Clojure/conj"] " was "
       [:a {:href "http://gigasquid.github.io/"} "Carin Meier"]
       "'s presentation, which combined storytelling, live coding, philosophy,
@@ -341,10 +387,10 @@ performance.)"])))
      relatively new "
       [:a {:href "https://github.com/Engelberg/instaparse"}
        "Instaparse library"] " to "
-      [:a {:href "http://gigasquidsoftware.com/wordpress/?p=689"} "create her
+       [:a {:href "http://gigasquidsoftware.com/wordpress/?p=689"} "create her
      own language"] " to explore something called “Speech Acts” (which I won't
      go into here, but do catch the video of her talk when it goes up)."]
-     [:span "My university work was in physics (and art) rather than CS, but I
+     ["My university work was in physics (and art) rather than CS, but I
      have long been interested in the implementation of programming languages,
      even going so far as to write a simple parser for Lisp-style math
      expressions in Pascal many years ago. Last year I had the opportunity to
@@ -352,22 +398,22 @@ performance.)"])))
       [:a {:href
            "http://dabeaz.blogspot.com/2012/01/compiler-experiment-begins.html"}
        "“write a compiler in Python” class"] " offered by "
-      [:a {:href "http://dabeaz.com"} "David Beazley"]
-      " here in Chicago, in which we implemented a subset of the Go
+       [:a {:href "http://dabeaz.com"} "David Beazley"]
+       " here in Chicago, in which we implemented a subset of the Go
       language. His "
-      [:a {:href "http://www.dabeaz.com/ply/index.html"} "PLY"]
-      " library is a great way
+       [:a {:href "http://www.dabeaz.com/ply/index.html"} "PLY"]
+       " library is a great way
      to get started with implementing language parsers in Python, and the
      relative ease of doing so, compared with classic C implementations
      described in the infamous "
-      [:a {:href
-           (str "http://www.amazon.com"
-                "Compilers-Principles-Techniques-Alfred-Aho/dp/0201100886")}
-       "Dragon Book"]
-      ", inspired me to do some further "
-      [:a {:href "https://github.com/eigenhombre/PyClojure"}
-       "experimentation of my own"]
-      "."]
+       [:a {:href
+            (str "http://www.amazon.com"
+                 "Compilers-Principles-Techniques-Alfred-Aho/dp/0201100886")}
+        "Dragon Book"]
+       ", inspired me to do some further "
+       [:a {:href "https://github.com/eigenhombre/PyClojure"}
+        "experimentation of my own"]
+       "."]
      "With this background, and inspired by Carin's talk, I have been waiting
      for an opportunity to try out Instaparse, which is getting great press in
      the Clojure world. Instaparse takes a grammar as input (in the form of a
@@ -376,20 +422,20 @@ performance.)"])))
      resulting tree into something your Clojure program can use more directly
      (for example, by converting data types or removing unneeded elements from
      the parse tree)."
-     [:span "When the need arose this weekend to read in Python configuration
+     ["When the need arose this weekend to read in Python configuration
      files into a Clojure program, I decided the time was ripe. I also wanted
      to document the journey using some form of "
       [:a {:href
            "http://en.wikipedia.org/wiki/Literate_programming"}
        "literate programming"] ". A library called "
-      [:a {:href
-           "https://github.com/gdeer81/marginalia"} "Marginalia"]
-      " (Michael Fogus " [:em "et. al."] " made this pretty easy."]
-     [:span "The results are "
+       [:a {:href
+            "https://github.com/gdeer81/marginalia"} "Marginalia"]
+       " (Michael Fogus " [:em "et. al."] ") made this pretty easy."]
+     ["The results are "
       [:a {:href
            "http://eigenhombre.com/semi-literate-programming/parsepy.html"}
        "here"] ", as well as on "
-      [:a {:href "https://github.com/eigenhombre/parsepy"} "GitHub"] "."]
+       [:a {:href "https://github.com/eigenhombre/parsepy"} "GitHub"] "."]
      "My impressions, after doing this project in just a few hours, are that
      (1) literate programming is great fun; and (2) Instaparse sets a new
      standard for power and expressiveness when converting structured text
@@ -397,3 +443,61 @@ performance.)"])))
      formal language you want to parse, and you are either literate in Clojure
      or interested in becoming so, Instaparse would be a great tool to check
      out.")))
+
+
+(defpost "Rosalind Problems in Clojure"
+  "rosalind-problems-in-clojure"
+  {:created "2013-06-09"}
+  (postbody
+   (section "Rosalind Problems in Clojure"
+     ["This weekend I've been having a lot of fun working the Bioinformatics
+problems from "
+      [:a {:href "http://rosalind.info/"} "Rosalind"] ". Most people work them
+in Python, but so far they have been very amenable to Clojure except
+where BioPython libraries are used for access to online databases. The
+problems have been straightforward so far but I have enjoyed the
+elegance and brevity that Clojure lends the solutions."]
+     ["In particular, I like this short translator "
+      [:a {:href "http://rosalind.info/problems/prot/"}
+       " from RNA sequences to amino acids"] ":"]
+     (code ";;; Translating RNA into Amino Acids
+
+(defmacro deftable [tname & rest]
+  `(def ~tname (apply hash-map '(~@rest))))
+
+(deftable proteins
+  UUU F      CUU L      AUU I      GUU V
+  UUC F      CUC L      AUC I      GUC V
+  UUA L      CUA L      AUA I      GUA V
+  UUG L      CUG L      AUG M      GUG V
+  UCU S      CCU P      ACU T      GCU A
+  UCC S      CCC P      ACC T      GCC A
+  UCA S      CCA P      ACA T      GCA A
+  UCG S      CCG P      ACG T      GCG A
+  UAU Y      CAU H      AAU N      GAU D
+  UAC Y      CAC H      AAC N      GAC D
+  UAA Stop   CAA Q      AAA K      GAA E
+  UAG Stop   CAG Q      AAG K      GAG E
+  UGU C      CGU R      AGU S      GGU G
+  UGC C      CGC R      AGC S      GGC G
+  UGA Stop   CGA R      AGA R      GGA G
+  UGG W      CGG R      AGG R      GGG G)
+
+(defn to-protein [s]
+  (->> s
+       (partition 3)
+       (map (partial apply str))
+       (map symbol)
+       (map proteins)
+       (take-while #(not= % 'Stop))
+       (apply str)))")
+     ["The body of the " [:code "proteins"]
+      " table is literally cut-and-pasted from "
+      [:a {:href "http://rosalind.info/problems/prot/"} "the
+problem page"]
+      " (click on \"RNA codon table\"). I think it's a good example of
+using macros to provide a little bit of syntactic sugar to make the
+code just a little more readable and elegant."]
+     ["This and my other solutions so far are "
+      [:a {:href "https://github.com/eigenhombre/rosalind"} "up on GitHub"]
+      "."])))
