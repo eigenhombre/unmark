@@ -1,40 +1,220 @@
-<head><link href="tufte-css/tufte.css" rel="stylesheet" /></head><body><div><h1>Working with Me</h1><p><div class="epigraph"><blockquote>Great things are done by a series of small things brought
-       together.<footer>Vincent Van Gogh</footer></blockquote></div></p><p><h2>Some things about me</h2><p>In no particular order: I tend to acquire a reputation as the
-       &ldquo;clean code guy.&rdquo; I prefer to retire technical debt sooner rather
-       than later. I like to strike the right balance between thinking
-       things through in advance, and coding experimentally,
-       discovering the truths of the problem at hand as I work. I
-       enjoy tackling easy problems, because it's satisfying to get
-       things done quickly, and I like hard problems that make one
-       grow, think, and do things one never imagined was possible. I
-       like a mix of coding solo and working closely with others. I
-       like working in beautiful environments that stoke creativity
-       and passion. I am opinionated, especially with regards to the
-       tools and approaches I've arrived at through many years of
-       growth, but I love learning new things from thoughtful people
-       who are good at their craft.</p></p><p><h2>Practices I Like</h2><p><h3>&ldquo;Test First&rdquo;</h3><p><span>I am not a TDD zealot, but I've had my tuchas saved
-          many times by automated tests, and been burned more than a
-          few by not having them. True TDD<span><label class="margin-toggle sidenote-number" for="G__18778"></label><input class="margin-toggle" id="G__18778" type="checkbox" /><span class="sidenote">Write the right minimum failing test first; write
-          the minimum production code needed to make all tests pass;
-          refactor to get to clean, DRY code; repeat.</span></span> is not
-          without its costs, but it is one of my favorite strategies
-          for ensuring good test coverage and, often, better design. I
-          frequently combine REPL development and higher-level,
-          end-to-end tests rather than testing slavishly at multiple
-          levels of abstraction. I keep in mind the cost of tests in
-          terms of code &ldquo;stiffness&rdquo; and try to write the <em>right</em> tests.</span></p></p><p><h3>Continuous Testing</h3><p>Most or all tests get run every time you save the file (at
-         least), as often as once per minute or so. If your tests take
-         too long for this to work, there's probably an architectural
-         or performance problem that needs to be looked at.</p></p><p><h3>Promiscuous Pairing</h3><p><span>The team I currently work on has adopted &ldquo;promiscuous pairing&rdquo;<span><label class="margin-toggle sidenote-number" for="G__18779"></label><input class="margin-toggle" id="G__18779" type="checkbox" /><span class="sidenote">See A. Belshee, <em>Promiscuous
-          Pairing and Beginner's Mind (Google for PDF)</em></span></span> as a regular practice. We pair-program for 90 minute
-          blocks, switching pairs twice a day (and solo programming or
-          going to meetings the rest of the time).</span></p><p>This practice, while often tiring, is a great teaching
-         technique.  At any given time, there is little tactical
-         knowledge that I have that I don't trust my teammates to
-         have, and vice-versa. People who practice promiscuous pairing
-         (including us) relate the pleasures of teaching a technique to
-         someone and then seeing another teammate using the same
-         technique a short time later.</p></p><p><h3>Solo Programming</h3></p><p><h3>Retrospectives</h3></p><p><h3>Kanban over Scrum</h3></p><p><h3>Clean code</h3><p>Whenever I touch a piece of code, I try to leave it in better shape
-         than I found it in.  I use style guides and build style checking
-         tools into automated builds, because I've found that better and more
-         readable code results.</p></p><p><h3>Continuous Integration</h3></p></p><p><h2>Default Tools</h2><p>I use the following tools on a daily or near-daily basis.</p><p><h3>Clojure</h3></p><p><h3>Emacs</h3><p><span>Configuration <a href="http://github.com/eigenhombre/emacs-config">here</a>.</span></p></p><p><h3>Docker</h3></p></p><p><h2>Working with Teams</h2><p>...</p></p><p><h2>Technical Strengths</h2><p><h3>Troubleshooting and debugging</h3></p></p></div></body><div><p><a href="about.html">about</a>|<a href="content.html">all posts</a></p><p>&copy; 2015 <a href="about.html">John Jacobsen</a>. Created with <a href="https://github.com/eigenhombre/unmark">unmark</a>.  CSS by <a href="https://edwardtufte.github.io/tufte-css/">Tufte-CSS</a>.</p></div>
+<head><link href="tufte-css/tufte.css" rel="stylesheet" /></head><body><div><h1>Lazy Physics</h1><p><em>... in which we explore lazy sequences and common
+     functional idioms in Clojure via the example of looking for
+     (nearly-)coincident clusters of times in a series.</em></p><p>A fundamental technical problem in experimental particle physics
+     is how to distinguish the signatures of particles from
+     instrumental noise.</p><p><figure><img><a href="img/birds-on-wires.jpg"><img src="img/birds-on-wires.jpg" /></a></img></figure></p><p><span>Imagine a tree full of hundreds of sparrows, each nesting
+     on a branch, each chirping away occasionally. Suddenly, for a
+     brief moment, they all start chirping vigorously (maybe a hawk
+     flew past). A clustering of chirps in time is the signal that <em>something has happened!</em> The analogous situation occurs
+     in instruments consisting of many similar detector elements, each
+     generating some amount of random noise that, on its own, is
+     indistinguishable from any evidence left by particles, but which,
+     taken together, signals that, again, <em>something has
+     happened</em>&mdash;a muon, an electron, a neutrino has left a sudden
+     spume of electronic evidence in your instrument, waiting to be
+     read out and distinguished from the endless noise.</span></p><p><span>This process of separating the noise from the signal is
+     known in physics as <em>triggering</em> and is typically done
+     through some combination of spatial or time clustering; in many
+     cases, time is the simplest to handle and the first &ldquo;line of
+     defense&rdquo; against being overrun by too much data. (It is often
+     impractical to consume all the data generated by all the elements
+     &mdash;data reduction is the name of the game at most stages of these
+     experiments.)</span></p><p><span>This data is typically generated
+     continously <em>ad infinitum</em>, and must therefore be processed
+     differently than, say, a single file on disk. Such infinite
+     sequences of data are an excellent fit for the functional pattern
+     known as <em>laziness</em>, in which, rather than chewing up all
+     your RAM and/or hard disk space, data is consumed and transformed
+     only as needed / as available. This kind of processing is baked
+     into Clojure at many levels and throughout its library of core
+     functions, dozens of which can be combined (&ldquo;composed&rdquo;) to
+     serve an endless variety of data transformations. (This style of
+     data wrangling is also available in Python via generators and
+     functional libraries such as <a href="http://toolz.readthedocs.org/">Toolz</a>.)</span></p><p>Prompted by a recent question on the topic from a physicist and
+     former colleague, I got to thinking about the classic problem of
+     triggering, and realized that the time series trigger provides a
+     nice showcase for Clojure&rsquo;s core library and for processing lazy
+     sequences. The rest of this post will describe a simple trigger,
+     essentially what particle astrophysicists I know call a &ldquo;simple
+     majority trigger&rdquo;; or a &ldquo;simple multiplicity trigger&rdquo; (depending
+     on whom you talk to).</p><p><span>Now for some Clojure code. (A small amount of familiarity with
+     Clojure&rsquo;s simple syntax is recommended for maximum understanding
+     of what follows.) We will build up our understanding through a
+     series of successively more complex code snippets. The exposition
+     follows closely what one might do in the Clojure REPL, building
+     up successively more complete examples. In each case, we use <code>take</code> to limit what would otherwise be infinite
+     sequences of data (so that our examples can terminate without
+     keeping us waiting
+     forever...).</span></p><p>First we create a sorted, infinite series of ever-increasing
+     times (in, say, nsec):</p><p><pre><code>(def times (iterate #(+ % (rand-int 1000)) 0))
+;; Caution: infinite sequence...
+
+(take 30 times)
+
+;;=>
+(0 955 1559 2063 2735 2858 3542 4067 4366 5246 5430 6168 7127 7932
+ 8268 8929 9426 9918 10436 10850 11680 12367 12569 13343 14155 14420
+ 15062 15171 15663 16355)
+</code></pre></p><p><span><code>times</code> is an infinite (but &ldquo;unrealized&rdquo;) series, constructed by
+     iterating the anonymous function <code>#(+ % (rand-int 1000))</code> which
+     adds a random integer from 0 to 999 to its argument (starting
+     with zero). The fact that it is infinite does not prevent us from
+     defining it or (gingerly) interrogating it via <code>take</code>.<span><label class="margin-toggle sidenote-number" for="G__21182"></label><input class="margin-toggle" id="G__21182" type="checkbox" /><span class="sidenote">To model a <a href="http://en.wikipedia.org/wiki/Poisson_process">Poisson</a> process &mdash; one in which any given event time is independent of
+      the future or past times &mdash; one would normally choose an
+      exponential rather than a uniformly flat distribution of time
+      differences, but this is not important for our discussion, so, in
+      the interest of simplicity, we&rsquo;ll go with what we have
+      here.</span></span></span></p><p><span>Now, the way we&rsquo;ll look for excesses is to look for
+     groupings of hits (say, eight of them) whose first and last hit
+     times are within 1 microsecond (1000 nsec) of each other. To start,
+     there is a handy function called <code>partition</code> which
+     groups a series in blocks of fixed length:</span></p><p><pre><code>(take 10 (partition 8 times))
+
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ (9426 9918 10436 10850 11680 12367 12569 13343)
+ (14155 14420 15062 15171 15663 16355 16700 16947)
+ (17919 17949 18575 18607 18849 19597 20410 20680)
+ (20737 21289 21315 21323 21426 21637 22422 23000)
+ (23477 24351 24426 25106 25861 26568 27511 28332)
+ (29071 29831 29957 30761 31073 31914 32591 33187)
+ (33878 34739 34842 35674 36444 36960 36983 37400)
+ (37587 38012 38969 39131 39317 40135 40587 40759))</code></pre></p><p>We&rsquo;ll rewrite this using Clojure&rsquo;s thread-last macro, which is a
+     very helpful tool for rewriting nested expressions as a more
+     readable pipeline of successive function applications:</p><p><pre><code>(->> times
+     (partition 8)
+     (take 10))
+
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ ...same as above...)</code></pre></p><p><span>However, this isn&rsquo;t quite what we want, because it won&rsquo;t
+     find clusters of times close together who don&rsquo;t happen to begin
+     on our <code>partition</code> boundaries. To fix this, we use
+     the optional <code>step</code> argument to <code>partition</code>:</span></p><p><pre><code>(->> times
+     (partition 8 1)
+     (take 10))
+
+;;=>
+((0 955 1559 2063 2735 2858 3542 4067)
+ (955 1559 2063 2735 2858 3542 4067 4366)
+ (1559 2063 2735 2858 3542 4067 4366 5246)
+ (2063 2735 2858 3542 4067 4366 5246 5430)
+ (2735 2858 3542 4067 4366 5246 5430 6168)
+ (2858 3542 4067 4366 5246 5430 6168 7127)
+ (3542 4067 4366 5246 5430 6168 7127 7932)
+ (4067 4366 5246 5430 6168 7127 7932 8268)
+ (4366 5246 5430 6168 7127 7932 8268 8929)
+ (5246 5430 6168 7127 7932 8268 8929 9426))</code></pre></p><p><span>This is getting closer to what we want&mdash;if you look
+     carefully, you&rsquo;ll see that each row consists of the previous one
+     shifted by one element. The next step is to grab (via <code>map</code>)
+     the first and last times of each group, using <code>juxt</code> to apply
+     both <code>first</code> and <code>last</code> to each subsequence&hellip;</span></p><p><pre><code>(->> times
+     (partition 8 1)
+     (map (juxt last first))
+     (take 10))
+
+;;=>
+([4067 0]
+ [4366 955]
+ [5246 1559]
+ [5430 2063]
+ [6168 2735]
+ [7127 2858]
+ [7932 3542]
+ [8268 4067]
+ [8929 4366]
+ [9426 5246])</code></pre></p><p>&hellip; and turn these into time differences:</p><p><pre><code>(->> times
+     (partition 8 1)
+     (map (comp (partial apply -) (juxt last first)))
+     (take 10))
+
+;;=>
+(4067 3411 3687 3367 3433 4269 4390 4201 4563 4180)
+</code></pre></p><p><span>Note that so far these time differences are all > 1000. <code>comp</code>, above, turns a collection of multiple
+      functions into a new function which is the composition of these
+      functions, applied successively one after the other
+      (right-to-left). <code>partial</code> turns a function of
+      multiple arguments into a function of fewer arguments, by
+      binding one or more of the arguments in a new function. For
+      example,</span></p><p><pre><code>((partial + 2) 3)
+
+;;=>
+5
+
+((comp (partial apply -) (juxt last first)) [3 10])
+
+;;=>
+7</code></pre></p><p><span>Recall that we only want events whose times are close to
+     each other; say, whose duration is under a maximum limit of 1000
+     nsec. In general, to select only the elements of a sequence which
+     satisfy a filter function, we use <code>filter</code>:</span></p><p><pre><code>(->> times
+     (partition 8 1)
+     (map (comp (partial apply -) (juxt last first)))
+     (filter (partial > 1000))
+     (take 10))
+
+;;=>
+(960 942 827 763 597 682 997 836 986 966)</code></pre></p><p><span>(<code>(partial > 1000)</code> is a function of one
+     argument which returns true if that argument is strictly less
+     than 1000.)</span></p><p>Great! We now have total &ldquo;durations&rdquo;; for subsequences of 8
+     times, where the total durations are less than 1000 nsec.</p><p>But this is not actually that helpful. It would be better if we
+     could get both the total durations and the actual subsequences
+     satisfying the requirement (the analog of this in a real physics
+     experiment would be returning the actual hit data falling inside
+     the trigger window).</p><p><span>To do this, <code>juxt</code> once again comes to the
+     rescue, by allowing us to <code>juxt</code>-apose the original
+     data alongside the total duration to show both together&hellip;</span></p><p><pre><code>(->> times
+     (partition 8 1)
+     (map (juxt identity (comp (partial apply -) (juxt last first))))
+     (take 10))
+
+;;=>
+([(0 309 410 562 979 1423 2180 3159) 3159]
+ [(309 410 562 979 1423 2180 3159 3585) 3276]
+ [(410 562 979 1423 2180 3159 3585 4325) 3915]
+ [(562 979 1423 2180 3159 3585 4325 4573) 4011]
+ [(979 1423 2180 3159 3585 4325 4573 5074) 4095]
+ [(1423 2180 3159 3585 4325 4573 5074 5942) 4519]
+ [(2180 3159 3585 4325 4573 5074 5942 6599) 4419]
+ [(3159 3585 4325 4573 5074 5942 6599 7458) 4299]
+ [(3585 4325 4573 5074 5942 6599 7458 8128) 4543]
+ [(4325 4573 5074 5942 6599 7458 8128 8439) 4114])</code></pre></p><p>... and adapt our filter slightly to apply our filter only to the
+time rather than the original data:</p><p><pre><code>(->> times
+     (partition 8 1)
+     (map (juxt identity (comp (partial apply -) (juxt last first))))
+     (filter (comp (partial > 1000) second))
+     (take 3))
+
+;;=>
+([(1577315 1577322 1577514 1577570 1577793 1577817 1577870 1578151)
+  836]
+ [(3119967 3120203 3120416 3120469 3120471 3120620 3120715 3120937)
+  970]
+ [(6752453 6752483 6752522 6752918 6752966 6753008 6753026 6753262)
+  809])</code></pre></p><p><span>Finally, to turn this into a function for later use, use<code>defn</code> and remove <code>take</code>:</span></p><p><pre><code>(defn smt-8 [times]
+  (->> times
+       (partition 8 1)
+       (map (juxt identity (comp (partial apply -) (juxt last first))))
+       (filter (comp (partial > 1000) second))))</code></pre></p><p><span><code>smt-8</code> consumes one, potentially infinite
+sequence and outputs another, &ldquo;smaller&rdquo; (but also potentially
+infinite) lazy sequence of time-clusters-plus-durations, in the form
+shown above.</span></p><p>Some contemplation will suggest many variants; for example, one
+in which some number of hits outside the trigger &ldquo;window&rdquo; are also
+included in the output.  This is left as an exercise for the advanced
+reader.</p><p><span>A &ldquo;real&rdquo; physics trigger would have to deal with many other
+details: each hit, in addition to its time, would likely have an
+amplitude, a sensor ID, and other data associated with it.  Also, the
+data may not be perfectly sorted, some sensors may drop out of the
+data stream, etc.  But in some sense this prototypical time clustering
+algorithm is one of the fundamental building blocks of experimental
+high energy physics and astrophysics and was used (in some variant) in
+every experiment I worked on over a 25+ year period.  The
+representation above is certainly one of the most succinct, and shows
+off the power and elegance of the language, its core library, and lazy
+sequences.  (It is also reasonably fast for such a simple algorithm; <code>smt-8</code> consumes input times at a rate of about 250 kHz.
+This is not, however, fast enough for an instrument like IceCube,
+whose 5160 sensors each count at a rate of roughly 300 Hz, for a total
+rate of 1.5 MHz. A future post may look at ways to get better
+performance.)</span></p></div></body><div><p><a href="about.html">about</a>|<a href="content.html">all posts</a></p><p>&copy; 2015 <a href="about.html">John Jacobsen</a>. Created with <a href="https://github.com/eigenhombre/unmark">unmark</a>.  CSS by <a href="https://edwardtufte.github.io/tufte-css/">Tufte-CSS</a>.</p></div>

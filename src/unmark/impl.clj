@@ -115,10 +115,14 @@
 
 
 
-(defn img [nom]
-  (let [fname (format "img/%s.jpg" nom)]
-    (assert (.exists (clojure.java.io/file fname)))
-    [:a {:href fname} [:img {:src fname}]]))
+(defn img
+  ([nom caption]
+   (let [fname (format "img/%s.jpg" nom)]
+     (assert (.exists (clojure.java.io/file fname)))
+     `[:figure [:img [:a {:href ~fname} [:img {:src ~fname}]]]
+       ~(when caption [:figcaption caption])]))
+  ([nom]
+   (img nom nil)))
 
 
 (defn toc []
