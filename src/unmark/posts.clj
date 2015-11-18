@@ -35,8 +35,8 @@
        things through in advance, and coding experimentally,
        discovering the truths of the problem at hand as I work. I
        enjoy tackling easy problems, because it's satisfying to get
-       things done quickly, and I like hard problems that make one
-       grow, think, and do things one never imagined was possible. I
+       things done quickly, and I like hard problems that make me
+       grow, think, and do things I never imagined possible. I
        like a mix of coding solo and working closely with others. I
        like working in beautiful environments that stoke creativity
        and passion. I am opinionated, especially with regards to the
