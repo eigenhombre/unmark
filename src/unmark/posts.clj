@@ -842,3 +842,52 @@ i3d3.plot({\"ylabel\":\"Entries\",
      things may look different a year from now. In the mean time,
      perhaps some people will find something helpful here."
      "Happy hacking!")))
+
+
+(defpost "South Pole Blog"
+  "southpole"
+  (postbody
+   (section "What the blog is for"
+     {:date "2006-02-10"}
+     "Date: 2006-02-10"
+     "On my sixth trip to the South Pole, I will try to publish at least one
+drawing or photo each day, possibly including some text.")
+   (section "Eclipse Town"
+     "Date: 2008-02-08"
+     "Image: https://farm3.static.flickr.com/2063/2250952114_961a283236_m.jpg"
+     "Four days left to go. I'm on a 1AM - 5PM work schedule right now. The
+schedule has picked up considerably as everyone tries to fit in as much
+work as possible before we redeploy back to New Zealand."
+
+     "One noteworthy event happened a day and a half ago: a near-total (80%)
+eclipse of the sun. I stayed up several hours later than usual to see
+it. A bunch of us \"beakers\" went out when it started in order to see the
+light change and to take pictures. Wind chills were about -75F. You know
+it's cold when your eyelids try to freeze shut when you blink, or when
+you can eat the icicles forming on your mustache."
+
+     "We stood outside for awhile and struggled with failing batteries, aching
+fingers and fogging glasses, got a few blurry pictures of the eclipse,
+then took a few shots at the Geographic and Ceremonial Poles and headed
+inside to warm up. Once inside, we found out we were too early for the
+real action. Soon most of the people on station were crowding at the
+windows and doorways (unwilling to face the mustache icicles by bundling
+up and going outside). Several people had sheets of aluminized mylar
+which served as an excellent filter for photography. I was glad I had
+brought my big lens, as it made the above picture possible (see Flickr
+for more pictures)."
+
+     "The neat thing about the eclipse was the light really changed - after 25
+days of mostly blazing sunlight, it was as close to night at the South
+Pole as I am likely to get. While the eclipse did darken everything, it
+had the effect of increasing contrast and adding a liquid silver
+tonality to the snow surface which usually sparkles like powdered
+diamond dust."
+
+     "We hit a record low of almost -55F during the eclipse."
+
+     "It was a late day for me but the sights and photos (and camaraderie with
+other shivering, clicking and squinting Polies) were worth it. As an
+added benefit, I am half-way shifted over to the day schedule now, which
+will make returning to NZ more restful.
+")))

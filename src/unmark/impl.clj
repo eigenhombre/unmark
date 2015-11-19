@@ -67,6 +67,8 @@
         (clojure.string/replace #"(?:^|(?<=(?:\s+|\()))\"", "&ldquo;")
         (clojure.string/replace #"\"(?:$|(?=(?:\s+|\)|\;)))", "&rdquo;")
         (clojure.string/replace #"’" "&rsquo;")
+        (clojure.string/replace #"(?<=[a-zA-Z])'(?=[a-zA-Z])"
+                                "&rsquo;")
         (clojure.string/replace #"”" "&rdquo;")
         (clojure.string/replace #"–" "&mdash;")
         (clojure.string/replace #"-{2}" "&mdash;")
