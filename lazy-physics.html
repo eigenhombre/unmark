@@ -1,4 +1,4 @@
-<head><link href="tufte-css/tufte.css" rel="stylesheet" /></head><body><div><h1>Lazy Physics</h1><p><em>... in which we explore lazy sequences and common
+<head><link href="tufte-css/tufte.css" rel="stylesheet" /><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script></head><body><div><h1>Lazy Physics</h1><p><em>... in which we explore lazy sequences and common
      functional idioms in Clojure via the example of looking for
      (nearly-)coincident clusters of times in a series.</em></p><p>A fundamental technical problem in experimental particle physics
      is how to distinguish the signatures of particles from
@@ -59,7 +59,7 @@
      iterating the anonymous function <code>#(+ % (rand-int 1000))</code> which
      adds a random integer from 0 to 999 to its argument (starting
      with zero). The fact that it is infinite does not prevent us from
-     defining it or (gingerly) interrogating it via <code>take</code>.<span><label class="margin-toggle sidenote-number" for="G__21182"></label><input class="margin-toggle" id="G__21182" type="checkbox" /><span class="sidenote">To model a <a href="http://en.wikipedia.org/wiki/Poisson_process">Poisson</a> process &mdash; one in which any given event time is independent of
+     defining it or (gingerly) interrogating it via <code>take</code>.<span><label class="margin-toggle sidenote-number" for="G__17881"></label><input class="margin-toggle" id="G__17881" type="checkbox" /><span class="sidenote">To model a <a href="http://en.wikipedia.org/wiki/Poisson_process">Poisson</a> process &mdash; one in which any given event time is independent of
       the future or past times &mdash; one would normally choose an
       exponential rather than a uniformly flat distribution of time
       differences, but this is not important for our discussion, so, in

@@ -35,7 +35,10 @@
 
 
 (defn ^:private page-header []
-  [:head [:link {:rel "stylesheet" :href "tufte-css/tufte.css"}]])
+  [:head
+   [:link {:rel "stylesheet" :href "tufte-css/tufte.css"}]
+   [:script {:type "text/javascript"
+             :src "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"}]])
 
 
 (defn ^:private year []
@@ -59,6 +62,8 @@
     txt
     (-> txt
         (clojure.string/replace #"©" "&copy;")
+        ;; FIXME: accent grave:
+        (clojure.string/replace #"à" "a")
         (clojure.string/replace #"(?:^|(?<=(?:\s+|\()))\"", "&ldquo;")
         (clojure.string/replace #"\"(?:$|(?=(?:\s+|\)|\;)))", "&rdquo;")
         (clojure.string/replace #"’" "&rsquo;")
@@ -117,7 +122,11 @@
 
 (defn img
   ([nom caption]
-   (let [fname (format "img/%s.jpg" nom)]
+   (let [fname-png (format "img/%s.png" nom)
+         fname-jpg (format "img/%s.jpg" nom)
+         fname (if (.exists (clojure.java.io/file fname-png))
+                 fname-png
+                 fname-jpg)]
      (assert (.exists (clojure.java.io/file fname)))
      `[:figure [:img [:a {:href ~fname} [:img {:src ~fname}]]]
        ~(when caption [:figcaption caption])]))
