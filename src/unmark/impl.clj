@@ -1,6 +1,5 @@
 (ns unmark.impl
-  (:require [hiccup.core :refer [html]]
-            [unmark.posts :refer :all]))
+  (:require [hiccup.core :refer [html]]))
 
 
 (defn spanify-vector-line
@@ -114,11 +113,11 @@
 (defmacro defpost
   ([title slug body]
    `(defpost ~title ~slug {} ~body))
-  ([title slug meta body]
+  ([title slug meta & body]
    `(swap! posts assoc ~slug ~(merge meta
                                      {:title title
                                       :slug slug
-                                      :body body}))))
+                                      :body (apply postbody body)}))))
 
 
 
