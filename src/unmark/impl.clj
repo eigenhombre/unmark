@@ -1,5 +1,6 @@
 (ns unmark.impl
-  (:require [hiccup.core :refer [html]]))
+  (:require [hiccup.core :refer [html]]
+            [me.raynes.fs :refer [copy-dir]]))
 
 
 (defn spanify-vector-line
@@ -148,15 +149,23 @@
        [:li date " " [:a {:href (str slug ".html")} title]])]))
 
 
-(defn render [filename body]
-  (spit filename (content body)))
+(defn render [target-dir filename body]
+  (.mkdir (clojure.java.io/file target-dir))
+  (spit (str target-dir "/" filename) (content body)))
 
 
-(defn generate-blog! []
-  (render "content.html" (toc))
+(defn copy-dir! [target-dir local-dir]
+  (copy-dir local-dir (str target-dir "/" local-dir)))
+
+
+(defn generate-blog! [target-dir]
+  (copy-dir! target-dir "img")
+  (copy-dir! target-dir "tufte-css")
+  (render target-dir "content.html" (toc))
   (doseq [[slug {:keys [title body]}] @posts]
-    (render (str slug ".html") body))
-  (render "index.html"
+    (render target-dir (str slug ".html") body))
+  (render target-dir
+          "index.html"
           (->> @posts
                (remove (comp :draft second))
                (sort-by (comp :created second))

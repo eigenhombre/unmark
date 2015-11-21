@@ -5,7 +5,7 @@
 
 
 (defn -main [& _]
-  (generate-blog!))
+  (generate-blog! "/tmp/site"))
 
 
 (comment
@@ -16,7 +16,8 @@
   ;; 		  (cider-interactive-eval
   ;; 		   "(in-ns 'unmark.core)
   ;;                     (generate-blog!)
-  ;;                     (clojure.java.shell/sh \"open\" \"index.html\")")))
+  ;;                     (clojure.java.shell/sh \"open\"
+  ;;                                            \"/tmp/site/index.html\")")))
   (do
-    (generate-blog!)
-    (clojure.java.shell/sh "open" "index.html")))
+    (generate-blog! "/tmp/site")
+    (clojure.java.shell/sh "open" "/tmp/site/index.html")))
