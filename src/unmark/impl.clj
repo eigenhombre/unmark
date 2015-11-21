@@ -1,5 +1,6 @@
 (ns unmark.impl
   (:require [hiccup.core :refer [html]]
+            [clojure.java.io :as io]
             [me.raynes.fs :refer [copy-dir]]))
 
 
@@ -34,11 +35,13 @@
   (partial-section 3 header body))
 
 
-(defn ^:private page-header []
+(defn ^:private page-header [title]
   [:head
+   [:title title]
    [:link {:rel "stylesheet" :href "tufte-css/tufte.css"}]
    [:script {:type "text/javascript"
-             :src "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"}]])
+             :src (str "http://cdn.mathjax.org/mathjax/"
+                       "latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")}]])
 
 
 (defn ^:private year []
@@ -80,9 +83,9 @@
   (clojure.walk/postwalk replace-symbols x))
 
 
-(defn content [& body]
+(defn content [title & body]
   (html
-   (page-header)
+   (page-header title)
    (vec (list* :body (walk-replace body)))
    (walk-replace (page-footer))))
 
@@ -149,9 +152,9 @@
        [:li date " " [:a {:href (str slug ".html")} title]])]))
 
 
-(defn render [target-dir filename body]
+(defn render [target-dir filename title body]
   (.mkdir (clojure.java.io/file target-dir))
-  (spit (str target-dir "/" filename) (content body)))
+  (spit (str target-dir "/" filename) (content title body)))
 
 
 (defn copy-dir! [target-dir local-dir]
@@ -161,14 +164,14 @@
 (defn generate-blog! [target-dir]
   (copy-dir! target-dir "img")
   (copy-dir! target-dir "tufte-css")
-  (render target-dir "content.html" (toc))
+  (render target-dir "content.html" "Table of Contents" (toc))
   (doseq [[slug {:keys [title body]}] @posts]
-    (render target-dir (str slug ".html") body))
-  (render target-dir
-          "index.html"
-          (->> @posts
-               (remove (comp :draft second))
-               (sort-by (comp :created second))
-               last
-               second
-               :body)))
+    (render target-dir (str slug ".html") title body))
+  (let [filename (->> @posts
+                      (remove (comp :draft second))
+                      (sort-by (comp :created second))
+                      last
+                      second
+                      :slug)]
+    (io/copy (io/file (str target-dir "/" filename ".html"))
+             (io/file (str target-dir "/index.html")))))
