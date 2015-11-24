@@ -15,12 +15,16 @@
     line))
 
 
+(defn convert-body [body]
+  (->> body
+       (remove map?)
+       (map spanify-vector-line)
+       (map (partial vector :p))))
+
+
 (defn partial-section [level header body]
   `([~(keyword (str "h" level)) ~header]
-    ~@(->> body
-           (remove map?)
-           (map spanify-vector-line)
-           (map (partial vector :p)))))
+    ~@(convert-body body)))
 
 
 (defn section [header & body]
@@ -86,7 +90,10 @@
 (defn content [title & body]
   (html
    (page-header title)
-   (vec (list* :body (walk-replace body)))
+   (vec (list* :body
+               [:h1 title]
+               [:p {:class "subtitle"} "John Jacobsen"]
+               (walk-replace body)))
    (walk-replace (page-footer))))
 
 
@@ -114,16 +121,18 @@
 (defonce posts (atom {}))
 
 
-(defmacro defpost
-  ([title slug body]
-   `(defpost ~title ~slug {} ~body))
-  ([title slug meta & body]
-   `(swap! posts assoc ~slug ~(merge meta
-                                     {:title title
-                                      :slug slug
-                                      :body (apply postbody body)}))))
+(defn slugify [s]
+  (-> s
+      clojure.string/lower-case
+      (clojure.string/replace #"\s+" "-")))
 
 
+(defmacro defpost [title meta & body]
+  (let [slug (slugify title)]
+    `(swap! posts assoc ~slug ~(merge meta
+                                      {:title title
+                                       :slug slug
+                                       :body (apply postbody body)}))))
 
 (defn img
   ([nom caption]

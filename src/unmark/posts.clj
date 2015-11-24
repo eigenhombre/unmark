@@ -3,8 +3,8 @@
 
 
 (defpost "About"
-  "about"
-  (section "About me, and this site"
+  {}
+  (section ""
     "I'm a software developer living (mostly) in Chicago, Illinois, USA.  I
      currently work at OpinionLab, where I am a senior dev on their backend
      Clojure team."  "I care about making outstanding software and outstanding
@@ -21,10 +21,9 @@
 
 
 (defpost "Working With Me"
-  "working-w-me"
   {:created "2015-11-14"
    :draft true}
-  (section "Working with Me"
+  (section ""
     (epigraph "Great things are done by a series of small things brought
        together." "Vincent Van Gogh")
     (subsection "Some things about me"
@@ -100,9 +99,8 @@
 
 
 (defpost "Lazy Physics"
-  "lazy-physics"
   {:created "2015-02-12"}
-  (section "Lazy Physics"
+  (section ""
     [:em "... in which we explore lazy sequences and common
      functional idioms in Clojure via the example of looking for
      (nearly-)coincident clusters of times in a series."]
@@ -373,9 +371,8 @@ performance.)"]))
 
 
 (defpost "Fun with Instaparse"
-  "fun-w-instaparse"
   {:created "2013-11-12"}
-  (section "Fun with Instaparse"
+  (section ""
     ["One of my favorite talks from this month's excellent "
      [:a {:href "http://clojure-conj.org/"} "Clojure/conj"] " was "
      [:a {:href "http://gigasquid.github.io/"} "Carin Meier"]
@@ -443,9 +440,8 @@ performance.)"]))
 
 
 (defpost "Rosalind Problems in Clojure"
-  "rosalind-problems-in-clojure"
   {:created "2013-06-09"}
-  (section "Rosalind Problems in Clojure"
+  (section ""
     ["This weekend I've been having a lot of fun working the Bioinformatics
 problems from "
      [:a {:href "http://rosalind.info/"} "Rosalind"] ". Most people work them
@@ -501,9 +497,8 @@ as directly as possible."]
 
 
 (defpost "Programming Languages"
-  "programming-languages"
   {:created "2011-12-22"}
-  (section "Programming Languages"
+  (section ""
     (img "koans" "Working on Clojure Koans while riding on a C-17,
      bound for Antarctica")
     "Today I am inspired to ponder many languages at once and review
@@ -657,9 +652,8 @@ as directly as possible."]
 
 
 (defpost "Marginalia Hacks"
-  "marginalia-hacks"
   {:created "2014-08-03"}
-  (section "Marginalia Hacks"
+  (section ""
     [:strong "This is the sixth and final post in a series on my Clojure
      workflow."]
     "In my last post, I introduced Marginalia as a tool for
@@ -837,7 +831,6 @@ i3d3.plot({\"ylabel\":\"Entries\",
 
 
 (defpost "South Pole Blog"
-  "southpole"
   {}
   (section "What the blog is for"
     {:date "2006-02-10"}
@@ -884,11 +877,10 @@ added benefit, I am half-way shifted over to the day schedule now, which
 will make returning to NZ more restful.
 "))
 
-(defpost
-  "Communicating With Humans"
-  "communicating-with-humans"
+
+(defpost "Communicating With Humans"
   {:created "2014-08-02"}
-  (section "Communicating With Humans"
+  (section ""
     [:em "If nobody but me likes it, let it die. -- "
      [:a {:href "http://www.informit.com/articles/article.aspx?p=1193856"}
       "Knuth"]]
