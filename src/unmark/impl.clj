@@ -87,16 +87,6 @@
   (clojure.walk/postwalk replace-symbols x))
 
 
-(defn content [title & body]
-  (html
-   (page-header title)
-   (vec (list* :body
-               [:h1 title]
-               [:p {:class "subtitle"} "John Jacobsen"]
-               (walk-replace body)))
-   (walk-replace (page-footer))))
-
-
 (defn sidenote [& txt]
   (let [cls (str (gensym))]
     `[:span
@@ -115,7 +105,7 @@
 
 
 (defn postbody [& forms]
-  `[:div ~@forms])
+  `[:div ~@(convert-body forms)])
 
 
 (defonce posts (atom {}))
@@ -134,6 +124,7 @@
                                        :slug slug
                                        :body (apply postbody body)}))))
 
+
 (defn img
   ([nom caption]
    (let [fname-png (format "img/%s.png" nom)
@@ -147,23 +138,40 @@
   ([nom]
    (img nom nil)))
 
-
 (defn toc []
-  (section "Contents"
-    [:ul
-     (for [[date slug title]
-           (->> @posts
-                (remove (comp :draft second))
-                (remove (comp nil? :created second))
-                (sort-by (comp :created second))
-                reverse
-                (map (comp (juxt :created :slug :title) second)))]
-       [:li date " " [:a {:href (str slug ".html")} title]])]))
+  [:ul
+   (for [[date slug title]
+         (->> @posts
+              (remove (comp :draft second))
+              (remove (comp nil? :created second))
+              (sort-by (comp :created second))
+              reverse
+              (map (comp (juxt :created :slug :title) second)))]
+     [:li date " " [:a {:href (str slug ".html")} title]])])
 
 
-(defn render [target-dir filename title body]
-  (.mkdir (clojure.java.io/file target-dir))
-  (spit (str target-dir "/" filename) (content title body)))
+(defn content [title show-author? & body]
+  (html
+   (page-header title)
+   `[:body
+     [:h1 ~title]
+     ~@(if show-author?
+         [[:p {:class "subtitle"} "John Jacobsen"]]
+         [])
+     ~@(walk-replace body)]
+   (walk-replace (page-footer))))
+
+
+(defn render
+  "
+  Render content to HTML file, showing author except when told not to
+  via 4-ary funcall.
+  "
+  ([target-dir filename title body]
+   (render target-dir filename title body true))
+  ([target-dir filename title body show-author?]
+   (.mkdir (clojure.java.io/file target-dir))
+   (spit (str target-dir "/" filename) (content title show-author? body))))
 
 
 (defn copy-dir! [target-dir local-dir]
@@ -173,7 +181,7 @@
 (defn generate-blog! [target-dir]
   (copy-dir! target-dir "img")
   (copy-dir! target-dir "tufte-css")
-  (render target-dir "content.html" "Table of Contents" (toc))
+  (render target-dir "content.html" "Table of Contents" (toc) false)
   (doseq [[slug {:keys [title body]}] @posts]
     (render target-dir (str slug ".html") title body))
   (let [filename (->> @posts
