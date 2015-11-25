@@ -117,24 +117,34 @@
       (clojure.string/replace #"\s+" "-")))
 
 
-(defmacro defpost [title meta & body]
-  (let [slug (slugify title)]
-    `(swap! posts assoc ~slug ~(merge meta
+(defmacro defpost
+  "
+  Create blog post or static page. If first element of body is a map,
+  treat it as metadata (with date, draft status, etc.).
+  "
+  [title & body]
+  (let [fb (first body)
+        meta_ (if (map? fb) fb {})
+        body (if (map? fb) (rest body) body)
+        slug (slugify title)]
+    `(swap! posts assoc ~slug ~(merge meta_
                                       {:title title
                                        :slug slug
                                        :body (apply postbody body)}))))
 
 
 (defn img
-  ([nom caption]
+  ([nom caption meta_]
    (let [fname-png (format "img/%s.png" nom)
          fname-jpg (format "img/%s.jpg" nom)
          fname (if (.exists (clojure.java.io/file fname-png))
                  fname-png
                  fname-jpg)]
      (assert (.exists (clojure.java.io/file fname)))
-     `[:figure [:img [:a {:href ~fname} [:img {:src ~fname}]]]
+     `[:figure [:a {:href ~fname} [:img ~(merge {:src fname} meta_)]]
        ~(when caption [:figcaption caption])]))
+  ([nom caption]
+   (img nom caption {}))
   ([nom]
    (img nom nil)))
 

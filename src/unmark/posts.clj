@@ -3,7 +3,6 @@
 
 
 (defpost "About"
-  {}
   "I'm a software developer living (mostly) in Chicago, Illinois, USA.
    I currently work at OpinionLab, where I am a senior dev on their
    backend Clojure team."  "I care about making outstanding software
@@ -21,30 +20,28 @@
 
 
 (defpost "Working With Me"
-  {:created "2015-11-14"
-   :draft true}
+  {:created "2015-11-14", :draft true}
   (epigraph "Great things are done by a series of small things brought
        together." "Vincent Van Gogh")
-  (section "Some things about me"
-    "In no particular order: I tend to acquire a reputation as the
-       \"clean code guy.\" I prefer to retire technical debt sooner rather
-       than later. I like to strike the right balance between thinking
-       things through in advance, and coding experimentally,
-       discovering the truths of the problem at hand as I work. I
-       enjoy tackling easy problems, because it's satisfying to get
-       things done quickly, and I like hard problems that make me
-       grow, think, and do things I never imagined possible. I
-       like a mix of coding solo and working closely with others. I
-       like working in beautiful environments that stoke creativity
-       and passion. I am opinionated, especially with regards to the
-       tools and approaches I've arrived at through many years of
-       growth, but I love learning new things from thoughtful people
-       who are good at their craft.")
+  (section "Some things about me" "In no particular order: I tend to
+    acquire a reputation as the \"clean code guy.\" I prefer to retire
+    technical debt sooner rather than later. I like to strike the
+    right balance between thinking things through in advance, and
+    coding experimentally, discovering the truths of the problem at
+    hand as I work. I enjoy tackling easy problems, because it's
+    satisfying to get things done quickly, and I like hard problems
+    that make me grow, think, and do things I never imagined
+    possible. I like a mix of coding solo and working closely with
+    others. I like working in beautiful environments that stoke
+    creativity and passion. I am opinionated, especially with regards
+    to the tools and approaches I've arrived at through many years of
+    growth, but I love learning new things from thoughtful people who
+    are good at their craft.")
   (section "Practices I Like"
     (subsection "\"Test First\""
-      ["I am not a TDD zealot, but I've had my tuchas saved
-          many times by automated tests, and been burned more than a
-          few by not having them. True TDD"
+      ["I am not a TDD zealot, but I've had my tuchas saved many times
+          by automated tests, and been burned more than a few by not
+          having them. True TDD"
        (sidenote "Write the right minimum failing test first; write
           the minimum production code needed to make all tests pass;
           refactor to get to clean, DRY code; repeat.")  " is not
@@ -53,8 +50,8 @@
           frequently combine REPL development and higher-level,
           end-to-end tests rather than testing slavishly at multiple
           levels of abstraction. I keep in mind the cost of tests in
-          terms of code \"stiffness\" and try to write the "
-          [:em "right"] " tests."])
+          terms of code \"stiffness\" and try to write the " [:em
+                                                              "right"] " tests."])
     (subsection "Continuous Testing"
       "Most or all tests get run every time you save the file (at
          least), as often as once per minute or so. If your tests take
@@ -71,8 +68,8 @@
          technique.  At any given time, there is little tactical
          knowledge that I have that I don't trust my teammates to
          have, and vice-versa. People who practice promiscuous pairing
-         (including us) relate the pleasures of teaching a technique to
-         someone and then seeing another teammate using the same
+         (including us) relate the pleasures of teaching a technique
+         to someone and then seeing another teammate using the same
          technique a short time later.")
     (subsection "Solo Programming")
     (subsection "Retrospectives")
@@ -748,12 +745,12 @@ end run")
   [[:strong "Solution"] ": Use a JavaScript plotting library, and a
      little Clojure to prepare the data."]
   ["This last hack is perhaps the most fun and the most “hacky” of
-     the bunch. One of the best features of notebook solutions like
-     iPython Notebook is the ability to show graphs inline with the
-     code that generates them. This is not really in the wheelhouse of
-     Marginalia, which was meant as a static documentation tool, but
-     since we can incorporate JavaScript (as seen above, for
-     mathematics), we can leverage existing plotting libraries. I use "
+    the bunch. One of the best features of notebook solutions like
+    iPython Notebook is the ability to show graphs inline with the
+    code that generates them. This is not really in the wheelhouse of
+    Marginalia, which was meant as a static documentation tool, but
+    since we can incorporate JavaScript (as seen above, for
+    mathematics), we can leverage existing plotting libraries. I use "
    [:a {:href "https://github.com/eigenhombre/i3d3"} "i3d3"]
    ", an open-source JavaScript plotting library built
      on top of " [:a {:href "http://d3js.org/"} "d3.js"] "."]
@@ -810,17 +807,17 @@ i3d3.plot({\"ylabel\":\"Entries\",
    (sidenote "Thanks to John Kelley / WIPAC for permission to show this work
      in this post.")]
   "As tools like Gorilla REPL and Session become more popular and
-     powerful, I may discard this way of injecting graphs into
-     “literate” programs. But I did want to see how far I could push
-     Marginalia as a Clojure-based substitute for iPython Notebook,
-     and found this approach surprisingly powerful. I might package it
-     into something a bit more off-the-shelf if anyone else shows
-     interest."
+   powerful, I may discard this way of injecting graphs into
+   “literate” programs. But I did want to see how far I could push
+   Marginalia as a Clojure-based substitute for iPython Notebook,
+   and found this approach surprisingly powerful. I might package it
+   into something a bit more off-the-shelf if anyone else shows
+   interest."
   "This concludes the series of posts on Clojure workflows--thanks
-     to any of you who made it this far! The Clojure tooling landscape
-     is constantly shifting, and I continue to learn new tricks, so
-     things may look different a year from now. In the mean time,
-     perhaps some people will find something helpful here."
+   to any of you who made it this far! The Clojure tooling landscape
+   is constantly shifting, and I continue to learn new tricks, so
+   things may look different a year from now. In the mean time,
+   perhaps some people will find something helpful here."
   "Happy hacking!")
 
 
@@ -838,12 +835,12 @@ drawing or photo each day, possibly including some text.")
 schedule has picked up considerably as everyone tries to fit in as much
 work as possible before we redeploy back to New Zealand."
 
-    "One noteworthy event happened a day and a half ago: a near-total (80%)
-eclipse of the sun. I stayed up several hours later than usual to see
-it. A bunch of us \"beakers\" went out when it started in order to see the
-light change and to take pictures. Wind chills were about -75F. You know
-it's cold when your eyelids try to freeze shut when you blink, or when
-you can eat the icicles forming on your mustache."
+    "One noteworthy event happened a day and a half ago: a near-total
+(80%) eclipse of the sun. I stayed up several hours later than usual
+to see it. A bunch of us \"beakers\" went out when it started in order
+to see the light change and to take pictures. Wind chills were about
+-75F. You know it's cold when your eyelids try to freeze shut when you
+blink, or when you can eat the icicles forming on your mustache."
 
     "We stood outside for awhile and struggled with failing batteries, aching
 fingers and fogging glasses, got a few blurry pictures of the eclipse,
@@ -883,26 +880,26 @@ will make returning to NZ more restful.
    [:a {:href "/clojure/2014/07/03/an-advanced-clojure-workflow/"} "series"]
    " about my Clojure workflow."]
   "When you encounter a new codebase, what best allows you to
-     quickly understand it so that you can make effective changes to
-     it?"
+   quickly understand it so that you can make effective changes to
+   it?"
   "I switched jobs about six months ago. There was intense
-     information transfer both while leaving my old projects behind,
-     and while getting up to speed with new ones. I printed out a lot
-     of code and read it front-to-back, quickly at first, and then
-     carefully. I found this a surprisingly effective way to review
-     and learn, compared to my usual way of navigating code on disk
-     and in an editor solely on an as-needed basis. "
+   information transfer both while leaving my old projects behind,
+   and while getting up to speed with new ones. I printed out a lot
+   of code and read it front-to-back, quickly at first, and then
+   carefully. I found this a surprisingly effective way to review
+   and learn, compared to my usual way of navigating code on disk
+   and in an editor solely on an as-needed basis. "
   "If this (admittedly old-school) way of understanding a program
-     works well, how much better might it work if there was enough
-     prose interspersed in amongst the code to explain anything
-     non-obvious, and if the order of the text was presented in such
-     a way as to aid understanding? "
+   works well, how much better might it work if there was enough
+   prose interspersed in amongst the code to explain anything
+   non-obvious, and if the order of the text was presented in such
+   a way as to aid understanding? "
   "What is the target audience of computer programs, anyways? It is
-     clearly the machines, which have to carry out our insanely
-     specific instructions... but, equally clearly, it is also the
-     humans who have to read, understand, maintain, fix, and extend
-     those programs. It astonishes me now how little attention is
-     paid to this basic fact. "
+   clearly the machines, which have to carry out our insanely
+   specific instructions... but, equally clearly, it is also the
+   humans who have to read, understand, maintain, fix, and extend
+   those programs. It astonishes me now how little attention is
+   paid to this basic fact. "
   ["In addition to communicating, we also have to "
    [:em "think carefully"] " about our work. While not every
       programming problem is so difficult as to merit "
@@ -911,32 +908,32 @@ will make returning to NZ more restful.
     " a year's worth
       of contemplation"]
    ", any software system of significant size requires continual
-      care, attention, and occasional hard thinking in order to keep
-      complexity under control. The best way I know to think clearly
-      about a problem is to write about it &#x2013; the harder the
-      problem, the more careful and comprehensive the required
-      writing. "]
+    care, attention, and occasional hard thinking in order to keep
+    complexity under control. The best way I know to think clearly
+    about a problem is to write about it &#x2013; the harder the
+    problem, the more careful and comprehensive the required
+    writing. "]
   "Writing aids thinking, because it is slower than
-     thought... because you can replay thoughts over and over, iterate
-     upon and refine them. Because writing is explaining, and because
-     explaining something is the best way I know to learn and
-     understand it. "
+   thought... because you can replay thoughts over and over, iterate
+   upon and refine them. Because writing is explaining, and because
+   explaining something is the best way I know to learn and
+   understand it. "
   [[:a {:href "http://en.wikipedia.org/wiki/Literate_programming"}
     "Literate Programming"]
    " (LP) was invented by Donald Knuth in the 1980s as a way to
-       address some of these concerns. LP has hardcore enthusiasts
-       scattered about, but apparently not much traction in the
-       mainstream. As I have gotten more experience working with
-       complex codebases, and more engaged with the craft or
-       programming, I have become increasingly interested in LP as a
-       way to write good programs. Knuth takes it further, considering
-       the possibility that programs are, or could be, " [:em "works
-       of literature"] ". "]
+    address some of these concerns. LP has hardcore enthusiasts
+    scattered about, but apparently not much traction in the
+    mainstream. As I have gotten more experience working with
+    complex codebases, and more engaged with the craft or
+    programming, I have become increasingly interested in LP as a
+    way to write good programs. Knuth takes it further, considering
+    the possibility that programs are, or could be, " [:em "works
+    of literature"] ". "]
   "Knuth's innovation was both in realizing these possibilities and
-     in implementing the first system for LP, called WEB. WEB takes a
-     document containing a mix of prose and code and both typesets it
-     in a readable (beautiful, even) form for humans, and also orders
-     and assembles the program for a compiler to consume. "
+   in implementing the first system for LP, called WEB. WEB takes a
+   document containing a mix of prose and code and both typesets it
+   in a readable (beautiful, even) form for humans, and also orders
+   and assembles the program for a compiler to consume. "
   ["Descendents and variants of WEB can be found in use
       today. My favorite for Clojure is currently "
    [:a {:href
@@ -948,10 +945,10 @@ will make returning to NZ more restful.
                 "http://www.perl.com/pub/a/tchrist/litprog.html")}
     "Purists of LP will disagree"]
    " that systems like Marginalia, which do not support reordering
-       and reassembly of source code, are \"true\" Literate
-       Programming tools; and, in fact, there is a caveat on the
-       Marginalia docs to that effect... but what Marginalia provides
-       is good enough for me: "]
+    and reassembly of source code, are \"true\" Literate
+    Programming tools; and, in fact, there is a caveat on the
+    Marginalia docs to that effect... but what Marginalia provides
+    is good enough for me: "]
   [:ol
    [:li "Placement of comments and docstrings adjacent to the
       code in question; "]
@@ -960,9 +957,9 @@ will make returning to NZ more restful.
       and/or CSS files; therefore, for images, mathematics (via
       MathJax) and graphing (see next blog post). "]]
   "The result of these capabilities is a lightweight tool which
-       lets me take an existing Clojure project and, with very little
-       extra effort, generate a Web-based or printed/PDF artifact
-       which I can sit down with, learn from, and enjoy contemplating."
+   lets me take an existing Clojure project and, with very little
+   extra effort, generate a Web-based or printed/PDF artifact
+   which I can sit down with, learn from, and enjoy contemplating."
   (section "Marginalia in Action:"
     (img "marg-screenshot")
     (img "emacs-screenshot"))
@@ -974,36 +971,243 @@ will make returning to NZ more restful.
      [:li "If we had feature \\(P\\), then \\(Q\\) would be easy.... "]
      [:li "How long would it take to compute \\(Z\\)? "]]
     ["Sentences like these are like snippets of code in the
-         REPL: things to evaluate and experiment with. Often these
-         statements are attached to bits of code -- experimental
-         expressions, and their evaluated results. They are the
-         building blocks of further ideas, programs, and chains of
-         thought. In "
+      REPL: things to evaluate and experiment with. Often these
+      statements are attached to bits of code -- experimental
+      expressions, and their evaluated results. They are the
+      building blocks of further ideas, programs, and chains of
+      thought. In "
      [:a {:href "/clojure/2014/08/03/marginalia-hacks/"} "my next post"]
      ", I'll talk about using Marginalia to make small notebooks
-         where I collect written thoughts, code, expression, even
-         graphs and plots while working on a problem. This workflow
-         involves some Marginalia hacks you may not see elsewhere. "]
+      where I collect written thoughts, code, expression, even
+      graphs and plots while working on a problem. This workflow
+      involves some Marginalia hacks you may not see elsewhere. "]
     "Meanwhile, here are some quotes about LP:"
     "\"Instead of writing code containing documentation, the
-       literate programmer writes documentation containing
-       code.... The effect of this simple shift of emphasis can be so
-       profound as to change one's whole approach to programming.\"
-       --Ross Williams, FunnelWeb Tutorial Manual, p.4. "
+     literate programmer writes documentation containing
+     code.... The effect of this simple shift of emphasis can be so
+     profound as to change one's whole approach to programming.\"
+     --Ross Williams, FunnelWeb Tutorial Manual, p.4. "
     "\"Knuth's insight is to focus on the program as a message
-       from its author to its readers.\" --Jon Bently,
-       \"Programming Pearls,\" Communications of the ACM, 1986."
+     from its author to its readers.\" --Jon Bently,
+     \"Programming Pearls,\" Communications of the ACM, 1986."
     ["\"... Literate programming is certainly the most
-         important thing that came out of the TeX project. Not only
-         has it enabled me to write and maintain programs faster and
-         more reliably than ever before, and been one of my greatest
-         sources of joy since the 1980s--it has actually been
-         indispensable at times. Some of my major programs, such as
-         the MMIX meta-simulator, could not have been written with any
-         other methodology that I've ever heard of. The complexity was
-         simply too daunting for my limited brain to handle; without
-         literate programming, the whole enterprise would have flopped
-         miserably.\" --Donald Knuth, "
+     important thing that came out of the TeX project. Not only
+     has it enabled me to write and maintain programs faster and
+     more reliably than ever before, and been one of my greatest
+     sources of joy since the 1980s--it has actually been
+     indispensable at times. Some of my major programs, such as
+     the MMIX meta-simulator, could not have been written with any
+     other methodology that I've ever heard of. The complexity was
+     simply too daunting for my limited brain to handle; without
+     literate programming, the whole enterprise would have flopped
+     miserably.\" --Donald Knuth, "
      [:a {:href
           "http://www.informit.com/articles/article.aspx?p=1193856&rll=1"}
       "interview"] ", 2008."]))
+
+
+(defpost "Testing, Continuously"
+  {:created "2014-07-20"}
+  [:strong "This is the fourth post in a series about Clojure workflows."]
+  "In my last post, I laid out a workflow based on TDD but with the
+  addition of “literate programming” (writing prose interleaved with
+  code) and experimentation at the REPL. Here I dive a bit deeper into
+  my test setup."
+
+  ["Even before I started developing in Clojure full time, I
+  " [:a {:href
+  "http://eigenhombre.com/testing/2012/03/31/ontinuous-testing-in-python-clojure-and-blub/"}
+  "discovered"] "
+  that creating a configuration that provides near-instant test
+  feedback made me more efficient as a developer. "
+   [:strong "I expect to be able to run all relevant tests every time I
+  hit the “Save” button"] " on any file in my project, and to see the
+  results within “a few” (preferrably, less than 3-4) seconds. Some
+  examples of systems which provide this are:"]
+  [:ol
+   [:li "Ruby-based "
+    [:a {:href "https://github.com/guard/guard#readme"} "Guard"]
+    ", commonly used in the Rails community;"]
+   [:li [:a {:href "https://github.com/eigenhombre/continuous-testing-helper"}
+         "Conttest"] ", a language-agnostic Python-based test runner I wrote;"]
+   [:li "in the Clojure sphere:"
+    [:ol
+     [:li "" [:a {:href "https://github.com/marick/Midje"} "Midje"] ",
+     using the " [:code ":autotest"] " option;"]
+     [:li "Expectations, using the autoexpect plugin for Leiningen;"]
+     [:li [:a {:href "https://github.com/slagyr/speclj"} "Speclj"] ",
+     using the " [:code "-a"] " option;"]
+     [:li "clojure.test, with " [:a {:href
+     "https://github.com/jakepearson/quickie"} "quickie"] " (and
+     possibly other) plugins"]]]]
+
+  ["I used to use Expectations; then, for a long time I liked Midje for
+  its rich DSL and the ability to develop functionality bottom-up or
+  " [:a {:href
+         "https://github.com/marick/Midje/wiki/The-idea-behind-top-down-development"}
+     "top-down"] ".  Now, I pretty much just use Speclj because it's
+     autotest reloader is the most reliable and trouble-free."]
+  "(Earlier versions of this post had details for setting up Midje,
+  now omitted -- see the Speclj docs to get started.)"
+  "Running your tests hundreds of times per day not only reduces
+  debugging time (you generally can figure out exactly what you broke
+  much easier when the deltas to the code since the last successful
+  test are small), but they also help build knowledge of what parts of
+  the code run slowly. If the tests start taking longer than a few
+  seconds to run, I like to give some thought to what could be
+  improved – either I am focusing my testing effort at too high of a
+  level (e.g. hitting the database, starting/stopping subprocesses,
+  etc.) or I have made some questionable assumptions about performance
+  somewhere."
+  "Sometimes, however, despite best efforts, the tests still take
+  longer than a few seconds to run. At this point I start annotating
+  tests with metadata indicating that those tests should be skipped
+  during autotesting (I still run the full test suite before
+  committing (usually) or pushing to master (always)).  In this way, I
+  can continue to get the most feedback in real time as possible –
+  which helps me develop quality code efficiently. The exact
+  mechanism for skipping slow tests depends on the test library you're
+  using; I haven't had to do it with Speclj yet."
+  "In the next post, we’ll switch gears and talk about literate
+  programming with Marginalia.")
+
+
+(defpost "Continuous Testing in Python, Clojure and Blub"
+  {:created "2012-03-31"}
+  (img "IMG_9625" "A separate monitor is handy for showing tests
+  results continuously while working. The paintbrushes are strictly
+  optional." {:width 300})
+  [:strong "What follows is a somewhat rambling introduction to continuous,
+  test-driven development, focusing mainly on Python and influenced by
+  Clojure tools and philosophy. At the end, a simple script is
+  introduced to help facilitate continuous TDD in (almost) any
+  language."]
+  ["For the last four years I have increasingly followed a test-driven
+  approach in my development. My approach continues to evolve and
+  deepen even as some of the "
+   [:a {:href "http://www.headspring.com/2011/11/guard-rail-programming"}
+    "limits of TDD"] " are becoming clearer to me."]
+  "Initially, I had a hard time getting my head around TDD. Writing
+  tests AND production code seemed like twice as much work, and I
+  typically ran the program under development, e.g. with print
+  statements added, to test each change. But making changes to old
+  code was always a fairly daunting proposition, since there was no
+  way to validate all the assumptions I’d checked “by eye” just after
+  I’d written the code."
+  ["TDD helps reduce risk by continuously verifying your assumptions
+  about how the code should perform at any time. Using TDD for a
+  " [:a {:href "http://npxdesigns.com/projects/icecube-live/"} "fairly
+  large project"] " has saved my bacon any number of times."]
+  "The basic approach is that the test code and the production code
+  evolve together more or less continuously, as one follows these
+  rules:"
+  [:ol
+   [:li "Don’t write any production code without a failing unit test"]
+   [:li "Write only enough production code needed to make the tests pass"]]
+  "Once I started writing tests for all new production code, I found I
+  could change that code and make it better without fear. That led to
+  much better (and usually simpler) code. I realized I was spending
+  much less time debugging; and when there were bugs, the tests helped
+  find them much faster. As I have gained experience with this
+  approach I have found that the reliability of, and my trust in, my
+  code written with TDD is vastly superior than otherwise. The
+  two-rule cycle also tends to foster simplicity, as one tends to
+  eschew any modifications that don’t actually achieve the desired
+  objectives (i.e. meet the goals of the software, as specified
+  formally in the tests themselves). The process is also surprisingly
+  agreeable!"
+  ["It goes without saying that if you follow this approach you will be
+  running your tests a lot. The natural next step is to automate this
+  more. In the book Foundations of Agile Python Development, Jeff
+  Younker explains how to make Eclipse run your unit tests "
+   [:strong "every time you save a file"] " in the project. The speed
+  and convenience of this approach was enough to get me to switch from
+  Emacs to Eclipse for awhile."]
+  ["Most of my daily programming work is in Python, but I have been an
+   avid "
+   [:a {:href "http://johnj.com/navblog/in-defense-of-hobbies/"}
+   "hobbyist"] " in Clojure for several months now. It wasn’t until I
+   saw Bill Caputo’s preparatory talk for Clojure/West here in Chicago
+   that I heard the term " [:strong "continuous testing"] " and
+   realized that this is what I was already doing; namely, the natural
+   extension of TDD in which one runs tests continuously rather than
+   “by hand.” Bill demoed the expectations module and the autoexpect
+   plugin for Leiningen, which runs your tests after every save
+   without incurring the overhead of starting a fresh JVM each time."]
+   "(One point Bill made in his talk was that if your tests are slow,
+   i.e. if you introduce some new inefficiency, you really notice
+   it. Ideally the tests should take a few seconds or less to
+   complete.)"
+  ["Back to Python-land. Not wanting to be always leashed to Eclipse,
+   and inspired by the autoexpect plugin, I started looking for an
+   alternative to using Eclipse's auto-builders -- something I could
+   use with Emacs or any other editor. There are a lot of continuous
+   build systems out there, but I wanted something simple which would
+   just run on the command line on my laptop screen while I edited
+   code on my larger external monitor. I found "
+   [:a {:href "https://github.com/brunobord/tdaemon/blob/master/tdaemon.py"}
+    "tdaemon"] " on GitHub; this
+   program walks a directory tree and runs tests whenever anything
+   changes (as determined by keeping a dictionary/map of SHA values
+   for all the files). This is most of what I want, but it restricts
+   you to its own choices of test programs."]
+  ["In a large project with many tests, some fast and some slow, I
+   often need to specify a specific test program or arguments. For
+   example, I have a wrapper for " [:a {:href
+   "http://readthedocs.org/docs/nose/en/latest/"} "nosetests"] " which
+   will alternately run all my “fast” unit tests, check for PEP-8
+   compliance, run Django tests, etc. In some cases, such as debugging
+   a system with multiple processes, I may need to do something
+   complex at the shell prompt to set up and/or tear down enough
+   infrastructure to perform an
+   existing test in a new way."]
+  ["One piece of Clojure philosophy (from Functional Programming,
+   a.k.a. “FP”) that has been influencing my thinking of late is the
+   notion of " [:strong "composability"] ": the decoupling or
+   disentanglement of the pieces of the systems one builds into small,
+   general, composable pieces. This will make those pieces easier to
+   reuse in new ways, and will also facilitate reasoning about their
+   use and behaviors. (Unfortunately, the merits of the FP approach,
+   which are many, have poisoned my enthusiasm for OO to the extent
+   that I will typically use a function, or even a closure, before
+   using an object, which would perhaps be more Pythonic in some
+   cases)."]
+  "So, in the current case under discussion (continuous testing),
+  rather than making some kind of stateful object which knows about
+  not only your current file system, but also what tests should be
+  allowed, their underlying dependencies, etc., it would be better (or
+  at least more \"functional\") instead to simply provide a
+  directory-watching function that checks a dictionary of file hashes,
+  and compose that function with whatever test program suits your
+  purposes at the moment."
+  ["The result of these thoughts is a small script called " [:a {:href
+  "https://github.com/eigenhombre/continuous-testing-helper"}
+  "conttest"] " which is a simplification of " [:code "tdaemon"] "
+  that composes well with any test suite you can specify on the
+  command line."]
+  "Some examples follow:"
+  (code "$ conttest nosetests  # Runs nosetests whenever the files on disk change
+
+$ conttest nosetests test.path:harness  # Runs only tests in 'harness'
+                                        # object in path/to/test -- handy
+                                        # for developing a single feature
+                                        # or fixing a single bug.
+# Check both PEP-8 style and unit tests:
+$ conttest 'pep8 -r . ; nosetests'
+")
+  ["It would work equally well with a different language (\"" [:a
+  {:href "http://www.paulgraham.com/avg.html"} "blub"] " language\") with a
+  separate compilation step:"]
+  (code "$ conttest 'make && ./run-tests'")
+  "Using this program, depending on my needs of the moment, I can
+  continuously run a single unit test, all my “fast” unit tests, or,
+  if I’m willing to deal with slower turnaround times, all my unit and
+  integration tests."
+  ["The script is on " [:a {:href
+  "https://github.com/eigenhombre/continuous-testing-helper"}
+  "GitHub"] " for your continuous enjoyment of continuous testing. May
+  you find it helpful."]
+  ["(Ironically, this script does NOT work that well for JVM languages
+  like Clojure since the startup time is lengthy (a couple of seconds
+  on my MacBook Pro). Most of the testing frameworks have autotest
+  capabilities built in, which work great.)"])
