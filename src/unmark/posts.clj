@@ -1016,11 +1016,11 @@ will make returning to NZ more restful.
 
   ["Even before I started developing in Clojure full time, I
   " [:a {:href
-  "http://eigenhombre.com/testing/2012/03/31/ontinuous-testing-in-python-clojure-and-blub/"}
-  "discovered"] "
+         "http://eigenhombre.com/testing/2012/03/31/ontinuous-testing-in-python-clojure-and-blub/"}
+     "discovered"] "
   that creating a configuration that provides near-instant test
   feedback made me more efficient as a developer. "
-   [:strong "I expect to be able to run all relevant tests every time I
+     [:strong "I expect to be able to run all relevant tests every time I
   hit the “Save” button"] " on any file in my project, and to see the
   results within “a few” (preferrably, less than 3-4) seconds. Some
   examples of systems which provide this are:"]
@@ -1038,7 +1038,7 @@ will make returning to NZ more restful.
      [:li [:a {:href "https://github.com/slagyr/speclj"} "Speclj"] ",
      using the " [:code "-a"] " option;"]
      [:li "clojure.test, with " [:a {:href
-     "https://github.com/jakepearson/quickie"} "quickie"] " (and
+                                     "https://github.com/jakepearson/quickie"} "quickie"] " (and
      possibly other) plugins"]]]]
 
   ["I used to use Expectations; then, for a long time I liked Midje for
@@ -1211,3 +1211,163 @@ $ conttest 'pep8 -r . ; nosetests'
   like Clojure since the startup time is lengthy (a couple of seconds
   on my MacBook Pro). Most of the testing frameworks have autotest
   capabilities built in, which work great.)"])
+
+
+(defpost "Macro-writing Macros"
+  {:created "2015-11-25"}
+  "I've been writing Clojure full time for nearly two years now. I
+  have a pretty good feel for the language, its virtues and its
+  faults. Mostly, I appreciate its virtues (though I still wish the
+  REPL started faster)."
+  "For me one of the language's attractions has always been that it's
+  a Lisp -- a \"homoiconic\" language, i.e., one defined in terms of
+  its own data structures. Homoiconicity has one primary virtue, which
+  is that it makes metaprogramming more powerful and straightforward
+  than it is in non-homoiconic languages."
+  "In Lisp, this metaprogramming is accomplished with macros, which
+  are functions that transform your code during a separate stage of
+  compilation. In other words, you write little programs to change
+  your programs before they execute."
+  "I run a Clojure study group at work and find that it can be hard to
+  explain the utility (or appeal) of this to newcomers to Lisp. When
+  pressed for examples on the spot, I often draw a blank. This is
+  partly because I don't often need to write them -- maybe one or two
+  a week, as opposed to hundreds of functions over the same time
+  period."
+  ["While " [:a {:href "https://github.com/eigenhombre/moarquil"}
+             "playing around with 3d rendering"]
+   " in " [:a {:href "http://quil.info/"} "Quil"] ", I recently came
+   across the following use case which I find entertaining and
+   instructive."]
+  "In Quil, there are multiple situations in which one needs to create
+  a temporary context to carry out a series of operations, restoring
+  the original state afterwards:"
+  [:ol
+   [:li "Save current style with " [:code "push-style"] "; change
+  style and draw stuff; restore previous style with "
+    [:code "pop-style"] "."]
+   [:li "Start shape with " [:code "begin-shape"] "; draw vertices; "
+    [:code "end-shape"] " to end."]
+   [:li "Save current position/rotation
+   with " [:code "push-matrix"] "; translate / rotate and draw stuff;
+   restore old position/rotation with " [:code "pop-matrix"] "."]]
+  "Here's an example:"
+  (code "(push-matrix)
+(try
+  (push-style)
+  (try
+    (fill 255)
+    (no-stroke)
+    (translate [10 10 10])
+    (begin-shape)
+    (try
+      (vertex x1 y1 0)
+      (vertex x2 y2 0)
+      (vertex x2 y2 h)
+      (vertex x1 y1 h)
+      (vertex x1 y1 0)
+      (finally
+        (end-shape)))
+    (finally
+      (pop-style)))
+  (finally
+    (pop-matrix)))
+")
+  ["The " [:code "(try ... (finally ...))"] " constructions may not be
+  strictly needed for a Quil drawing, but it's a good habit to
+  guarantee that stateful context changes are undone, even if problems
+  occur."]
+  "In a complex Quil drawing the idioms for saving style, translation
+  state, and denoting shapes appear often enough that one hungers for
+  a more compact way of representing each.  Here's one way to do it:"
+  (code "(defmacro with-style [& body]
+  (push-style)
+  (try
+    ~@body
+    (finally
+      (pop-style))))
+
+(defmacro with-matrix [& body]
+  (push-matrix)
+  (try
+    ~@body
+    (finally
+      (pop-matrix))))
+
+(defmacro with-shape [& body]
+  (begin-shape)
+  (try
+    ~@body
+    (finally
+      (end-shape))))
+
+")
+  "The original code then becomes more compact and easier to read:"
+  (code "
+(with-matrix
+  (with-style
+    (fill 255)
+    (no-stroke)
+    (translate [10 10 10])
+    (with-shape
+      (vertex x1 y1 0)
+      (vertex x2 y2 0)
+      (vertex x2 y2 h)
+      (vertex x1 y1 h)
+      (vertex x1 y1 0))))")
+  ["However, the astute reader will realize that the macro definitions
+  themselves are pretty repetitive--in fact, they look almost
+  identical except for the setup and teardown details (this kind of
+  \"context manager\" pattern is common enough that Python has "
+   [:a {:href (str "http://eigenhombre.com/2013/04/20/"
+                   "introduction-to-context-managers/")}
+    "its own language construct"] " for it)."]
+  "I generally reach for macros when I have a pattern that occurs with
+  obvious repetition that's not easy to abstract out using just pure
+  functions.  Control abstractions such as loops or exception handling
+  are common examples. (I find this situation occurs especially
+  frequently when writing test code)."
+  "In any case, the solution for our repetitive macros could be
+  something like:"
+  (code "(defmacro defcontext
+  [nom setup teardown]
+  `(defmacro ~(symbol (str \"with-\" nom))
+     [~'& body#]
+     `(do
+        ~'~setup
+        (try
+          ~@body#
+          (finally
+            ~'~teardown)))))")
+  ["Yikes! I have to admit I had to write a lot of macros, and also refer to "
+  [:a {:href
+  "http://hubpages.com/technology/Clojure-macro-writing-macros"} "this
+  helpful page"]
+  " for reference, before I could write (and grok) this macro."]
+  ["With " [:code "defcontext"] " in hand, our repetitive macro code
+  just becomes:"]
+  (code "(defcontext style (push-style) (pop-style))
+(defcontext shape (begin-shape) (end-shape))
+(defcontext matrix (push-matrix) (pop-matrix))")
+  ["With a little effort, it's actually not too hard to construct such
+  a nested macro. It's largely a matter of writing out the code you
+  want to generate, and then writing the code that generates it,
+  testing with "
+  [:code "macroexpand-1"] " at the REPL as you go. " [:a
+  {:href "http://hubpages.com/technology/Clojure-macro-writing-macros"} "This
+  page by A. Malloy"] " has a lot of helpful remarks, including this
+  cautionary note: \"Think twice before trying to nest macros: it's
+  usually the wrong answer.\" In this case, I actually think it's the
+  right answer, because the pattern of a context with setup and
+  teardown is so common that I know I'll reuse this macro for many
+  other things."]
+  ["There's a saying in the Clojure community: " [:code "data >
+  functions > macros"] ". I'm a big believer in this. Clojure's
+  powerful built-in abstractions for wrangling data in all its forms
+  make it the language I prefer above all others these days. But
+  occasionally that means wrangling the data that is the code itself,
+  thereby reaping the benefits in power, brevity and expressiveness."]
+  ["(Original code on GitHub is "
+   [:a {:href
+        (str "https://github.com/eigenhombre/moarquil/blob/master/"
+             "src/moarquil/util.clj#L5")} "here"] ".)"])
