@@ -1349,6 +1349,8 @@ $ conttest 'pep8 -r . ; nosetests'
   (code "(defcontext style (push-style) (pop-style))
 (defcontext shape (begin-shape) (end-shape))
 (defcontext matrix (push-matrix) (pop-matrix))")
+  ["These are exactly equivalent to the three context macros (" [:code
+  "with-*"] ") defined above."]
   ["With a little effort, it's actually not too hard to construct such
   a nested macro. It's largely a matter of writing out the code you
   want to generate, and then writing the code that generates it,
