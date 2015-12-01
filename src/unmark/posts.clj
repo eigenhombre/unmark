@@ -1228,7 +1228,8 @@ $ conttest 'pep8 -r . ; nosetests'
   a Lisp -- a \"homoiconic\" language, i.e., one defined in terms of
   its own data structures. Homoiconicity has one primary virtue, which
   is that it makes metaprogramming more powerful and straightforward
-  than it is in non-homoiconic languages."
+  than it is in non-homoiconic languages (arguably at some cost to
+  readability)."
   "In Lisp, this metaprogramming is accomplished with macros, which
   are functions that transform your code during a separate stage of
   compilation. In other words, you write little programs to change
@@ -1380,14 +1381,6 @@ $ conttest 'pep8 -r . ; nosetests'
              "src/moarquil/util.clj#L5")} "here"] ".)"])
 
 
-(defpost "A Workflow: TDD, RDD and DDD"
-  {:created "2014-07-20"
-   :draft true}
-  [:strong "This is the third post in a series about my current
-  Clojure workflow."]
-  )
-
-
 (defpost "Emacs Customization for Clojure"
   {:created "2014-07-05"}
   [[:strong "Synopsis"] ": "
@@ -1440,15 +1433,15 @@ $ conttest 'pep8 -r . ; nosetests'
     specific reason for this, working directly with trees of Lisp
     expressions gives me a feeling of somehow being closer to the
     essence of computation.")
-  (section "Cider"
+  (section "CIDER"
     ["An even more important tool is "
      [:a {:href
-          "https://github.com/clojure-emacs/cider"} "Cider"]
+          "https://github.com/clojure-emacs/cider"} "CIDER"]
      ", which integrates the Clojure REPL directly with Emacs. The
     upshot of this kind of integration is that one can " [:em "evaluate
     Clojure code directly from the editor"] " with a single key
     combination and see the results instantly."]
-    "I bind my own key combinations to the common Cider commands to
+    "I bind my own key combinations to the common CIDER commands to
     make them as quick to execute as possible:"
     (code "(add-hook 'clojure-mode-hook
    '(lambda ()
@@ -1457,14 +1450,14 @@ $ conttest 'pep8 -r . ; nosetests'
     ["Start CIDER REPL with " [:code "control-o-j"] ":"]
     (code "      (define-key clojure-mode-map (kbd \"C-o j\") 'cider-jack-in)
 ")
-    [[:strong "Restart"] " Cider REPL
+    [[:strong "Restart"] " CIDER REPL
     with " [:code "control-o-J"] " (in case of dirty JVM, etc.):"]
     (code "      (define-key clojure-mode-map (kbd \"C-o J\") 'cider-restart)")
     ["Use " [:code "⌘-i"] " to evaluate previous expression and display
     result in minibuffer (I am on a Mac):"]
     (code "      (define-key clojure-mode-map (kbd \"s-i\") 'cider-eval-last-sexp)")
     ["Rather than showing in minibuffer, use " [:code "control-o y"] "
-    to insert the result DIRECTLY IN THE CODE:"]
+    to insert the result " [:em "directly in the code"] "."]
     (code "      (define-key clojure-mode-map (kbd \"C-o y\")
         (lambda ()
            (interactive)
@@ -1495,15 +1488,18 @@ $ conttest 'pep8 -r . ; nosetests'
     ["Other Emacs plugins which I use and recommend are:"
      [:ol
       [:li [:a
-            {:href "https://github.com/clojure-emacs/clojure-mode"} "clojure-mode"] ",
+            {:href "https://github.com/clojure-emacs/clojure-mode"}
+            "clojure-mode"] ",
       which provides syntax coloring, indentation rules, and source
       code navigation;"]
       [:li [:a
-            {:href "https://github.com/jlr/rainbow-delimiters"} "rainbow-delimiters"] ",
+            {:href "https://github.com/Fanael/rainbow-delimiters"}
+            "rainbow-delimiters"] ",
       which colorizes parentheses according to their nesting depth;
       and,"]
       [:li [:a
-            {:href "https://github.com/auto-complete/auto-complete"} "auto-complete"] ",
+            {:href "https://github.com/auto-complete/auto-complete"}
+            "auto-complete"] ",
       which provides IDE-like auto-completion. "]]]
     ["To install Emacs packages, e.g. paredit, " [:code "M-x
     install-package [RET] paredit"] ". Or, steal the code from "
@@ -1522,3 +1518,124 @@ $ conttest 'pep8 -r . ; nosetests'
      ", we’ll talk about test-driven development and how
      “RDD” (REPL-driven development) and TDD enhance and complement
      each other."]))
+
+
+(defpost "TDD, RDD and DDD"
+  {:created "2014-07-20"}
+  [:strong "This is the third post in a series about my current
+  Clojure workflow."]
+  ["Having "
+   [:a {:href "emacs-customization-for-clojure.html"}
+    "discussed Emacs setup"] " for Clojure, I now present a sort
+  of idealized workflow, in which I supplement traditional TDD with
+  literate programming and REPL experimentation."]
+  "First, some questions:"
+  [:ol {:type "a"}
+   [:li "How do you preserve the ability to make improvements without
+   fear of breaking things?"]
+   [:li "What process best facilitates careful thinking about design
+   and implementation?"]
+   [:li "How do you communicate your intentions to future
+   maintainers (including future versions of yourself)?"]
+   [:li "How do you experiment with potential approaches and solve
+   low-level tactical problems as quickly as possible?"]
+   [:li "Since \"simplicity is a prerequisite for
+   reliability\" (Dijkstra), how do you arrive at simple designs and
+   implementations?"]]
+  ["The answer to (a) is, of course, by having good tests; and the best
+  way I know of to maintain good tests is by writing test code
+  along with, and slightly ahead of, the production code (test-driven
+  development, a.k.a. TDD). However, my experience with TDD is that it
+  doesn’t always help much with the other points on the list (though
+  it helps a bit with (b), (c) and (e)). In particular, "
+   [:a {:href "http://www.infoq.com/presentations/Simple-Made-Easy"}
+    "Rich Hickey points out"] " that TDD is not a substitute
+  for " [:em "thinking"] " about the problem at hand."]
+  ["As an aid for thinking, I find writing to be invaluable, so a
+  minimal sort of "
+   [:a {:href
+        "http://en.wikipedia.org/wiki/Literate_programming"}
+    "literate programming"] " has become a part of my workflow, at
+  least for hard problems."]
+  (section "The Workflow"
+    "Now for the workflow proper. Given the following tools:"
+    [:ol
+     [:li "Emacs + Cider REPL"]
+     [:li "Unit tests "
+      [:a {:href "testing,-continuously.html"}
+       "running continuously"]]
+     [:li
+      [:a {:href "https://github.com/MichaelBlume/marginalia"}
+       "Marginalia"] " running continuously, via "
+      [:a {:href "https://github.com/eigenhombre/continuous-testing-helper"}
+       "conttest"] ","]]
+    ["then my workflow, in its "
+     [:a {:href "http://en.wikipedia.org/wiki/Theory_of_Forms"} "Platonic Form"]
+     ", is:"]
+    [:ol
+     [:li [:strong "Is the path forward clear enough to write the next failing
+     test?"] " If not, go to step 2. If it is, go to step 3."]
+     [:li [:a {:href "https://www.youtube.com/watch?v=f84n5oFoZBc"} "Think"]
+      " and " [:strong "write"] " (see below) about the problem. Go to 1."]
+     [:li [:strong "Write the next failing test"]
+      ". This test, when made to pass, should represent the smallest
+     “natural” increase of functionality."]
+     [:li [:strong "Is it clear how to make the test pass?"]
+      " If not, go to step 5. If it is, write the simplest
+     “production” code which makes all tests pass. Go to 6."]
+     [:li [:strong "Think, write, and conduct REPL experiments"] ". Go to 4."]
+     [:li [:strong "Is the code as clean, clear, and simple as possible?"]
+      " If so, go to step 7. If not, refactor, continuously making sure
+     tests continue to pass with every change. Go to 6."]
+     [:li "Review the Marginalia docs. " [:strong "Is the intent of the code
+     clear?"] " If so, go to step 1. If not, " [:strong "write some more"]
+      ". Go to 7."]]
+    "“Writing” in each case above refers to updating comments and
+    docstrings, as described in a subsequent post on Literate
+    Programming."
+    "Here are the above steps as a flow chart:"
+    (img "workflow")
+    ["The workflow presented above is a somewhat idealized version of
+    what I actually manage to pull off during any given coding
+    session. It is essentially the "
+     [:span {:style "color:red"} "red"] "-"
+     [:span {:style "color:green"} "green"] "-"
+     [:span {:style "color:blue"} "refactor"] " of traditional
+    test-driven development, with the explicit addition of REPL
+    experimentation (“REPL-driven development,” or RDD) and continuous
+    writing of documentation (“documentation-driven development,” or
+    DDD) as a way of steering the effort and clarifying the
+    approach."]
+    ["The utility of the REPL needs no elaboration to Clojure
+    enthusiasts and I won’t belabor the point here. Furthermore, a lot
+    has been written about test-first development and its advantages
+    or drawbacks. At the moment, "
+     [:a {:href "http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html"}
+      "the practice seems to be particularly controversial"] " in the
+      Rails community. I don’t want to go too deep into the pros and
+      cons of TDD other than to say " [:a {:href
+      "continuous-testing-in-python,-clojure-and-blub.html"} "once
+      again"] " that the practice has
+      saved my bacon so many times that I try to minimize the amount
+      of code I write that doesn’t begin life as a response to a
+      failing test."]
+    "What I want to emphasize here is how writing and the use of the
+    REPL complement TDD. These three ingredients cover all the
+    bases (a)-(e), above. While I’ve been combining unit tests and the
+    REPL for some time, the emphasis on writing is new to me, and I am
+    excited about it. Much more than coding by itself, I find that
+    writing things down and building small narratives of code and
+    prose together forces me to do the thinking I need in order to
+    write the best code I can."
+    (subsubsection "Always Beginning Again"
+      "While I don’t always follow each of the above steps to the
+      letter, the harder the problem, the more closely I will tend to
+      follow this plan, with one further modification: I am willing to
+      wipe the slate clean and begin again if new understanding shows
+      that the current path is unworkable, or leads to unneeded
+      complexity."
+      ["The next few posts attack specifics about "
+       [:a {:href "testing,-continuously.html"} "testing"]
+       " and " [:a {:href "communicating-with-humans.html"} "writing"]
+       ", presenting what I personally have found most effective (so far),
+      and elaborating on helpful aspects of each."])))
