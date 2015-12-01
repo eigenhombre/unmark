@@ -1340,23 +1340,23 @@ $ conttest 'pep8 -r . ; nosetests'
           (finally
             ~'~teardown)))))")
   ["Yikes! I have to admit I had to write a lot of macros, and also refer to "
-  [:a {:href
-  "http://hubpages.com/technology/Clojure-macro-writing-macros"} "this
+   [:a {:href
+        "http://hubpages.com/technology/Clojure-macro-writing-macros"} "this
   helpful page"]
-  " for reference, before I could write (and grok) this macro."]
+   " for reference, before I could write (and grok) this macro."]
   ["With " [:code "defcontext"] " in hand, our repetitive macro code
   just becomes:"]
   (code "(defcontext style (push-style) (pop-style))
 (defcontext shape (begin-shape) (end-shape))
 (defcontext matrix (push-matrix) (pop-matrix))")
   ["These are exactly equivalent to the three context macros (" [:code
-  "with-*"] ") defined above."]
+                                                                 "with-*"] ") defined above."]
   ["With a little effort, it's actually not too hard to construct such
   a nested macro. It's largely a matter of writing out the code you
   want to generate, and then writing the code that generates it,
   testing with "
-  [:code "macroexpand-1"] " at the REPL as you go. " [:a
-  {:href "http://hubpages.com/technology/Clojure-macro-writing-macros"} "This
+   [:code "macroexpand-1"] " at the REPL as you go. " [:a
+                                                       {:href "http://hubpages.com/technology/Clojure-macro-writing-macros"} "This
   page by A. Malloy"] " has a lot of helpful remarks, including this
   cautionary note: \"Think twice before trying to nest macros: it's
   usually the wrong answer.\" In this case, I actually think it's the
@@ -1373,3 +1373,147 @@ $ conttest 'pep8 -r . ; nosetests'
    [:a {:href
         (str "https://github.com/eigenhombre/moarquil/blob/master/"
              "src/moarquil/util.clj#L5")} "here"] ".)"])
+
+
+(defpost "A Workflow: TDD, RDD and DDD"
+  {:created "2014-07-20"
+   :draft true}
+  [:strong "This is the third post in a series about my current
+  Clojure workflow."]
+  )
+
+
+(defpost "Emacs Customization for Clojure"
+  {:created "2014-07-05"}
+  [[:strong "Synopsis"] ": "
+   [:em "I talk about the value of paredit in Emacs
+  and show a trick which allows you to insert the result of any given
+  Clojure expression directly underneath that expression."]]
+  ["As I said in the " [:a {:href
+                            "http://eigenhombre.com/clojure/2014/07/03/an-advanced-clojure-workflow/"}
+                        "first post"] ", a good set of tools can make a big difference in
+  productivity and enjoyment while working in any language, and
+  Clojure is certainly no exception. The most important tool in your
+  toolbox, regardless of language, is your editor. Editing Lisp code
+  in particular is much more natural with the right editor setup."]
+  ["I have been using Emacs since the 1990s, though I still consider
+  myself a novice (Emacs is that way). Though good alternatives
+  exist, "
+   [:a {:href
+        "http://cemerick.com/2013/11/18/results-of-the-2013-state-of-clojure-clojurescript-survey/"}
+    "over half of the Clojure community has adopted Emacs"] " despite
+  its lack of polish and its Himalayan learning curve. Emacs is
+  massively customizable, with hundreds of plugins available, and can
+  be extended to just about any degree using its own flavor of
+  Lisp."]
+  ["While I’ll give a few Emacs configuration tips below, I don’t give
+  a complete recipe for customizing Emacs here. "
+   [:a {:href "https://github.com/eigenhombre/emacs-config/"} "My Emacs
+  configuration file"] " is on GitHub if you are interested."]
+  (section "Paredit"
+    ["Though it takes a little getting used to, I started using "
+     [:a {:href "http://emacsrocks.com/e14.html"} "paredit mode"]
+     " exclusively a year or so and it has made a huge difference, not
+    only for my productivity with the language, but also in my
+    enjoyment and appreciation of Lisp in general."]
+    ["In paredit, the units of code are not lines of text or sequences
+    of characters, but " [:em "s-expressions"] " (generally,
+    lists). In other words, paredit gives you the ability to easily
+    manipulate the data structures that your code is built out
+    of. With various key combinations, you can kill expressions, split
+    them, join them, expell (“barf”) or absorb (“slurp”) neighboring
+    expressions, and so on. This "
+    [:a {:href
+         "https://github.com/joelittlejohn/paredit-cheatsheet"} "excellent
+    cheat"] " sheet covers the whole range of commands and
+    keybindings."]
+    "I think that it wasn’t until I started using paredit that I
+    really got used to all those parentheses. Now editing non-Lisp
+    code feels unnatural to me, since I don’t have the ability to
+    sling blocks of code about with the same ease without those
+    parentheses steering my editor. And, though it’s hard to give a
+    specific reason for this, working directly with trees of Lisp
+    expressions gives me a feeling of somehow being closer to the
+    essence of computation.")
+  (section "Cider"
+    ["An even more important tool is "
+     [:a {:href
+          "https://github.com/clojure-emacs/cider"} "Cider"]
+     ", which integrates the Clojure REPL directly with Emacs. The
+    upshot of this kind of integration is that one can " [:em "evaluate
+    Clojure code directly from the editor"] " with a single key
+    combination and see the results instantly."]
+    "I bind my own key combinations to the common Cider commands to
+    make them as quick to execute as possible:"
+    (code "(add-hook 'clojure-mode-hook
+   '(lambda ()
+      (paredit-mode 1)
+      ;; Actual keyboard bindings follow:")
+    ["Start CIDER REPL with " [:code "control-o-j"] ":"]
+    (code "      (define-key clojure-mode-map (kbd \"C-o j\") 'cider-jack-in)
+")
+    [[:strong "Restart"] " Cider REPL
+    with " [:code "control-o-J"] " (in case of dirty JVM, etc.):"]
+    (code "      (define-key clojure-mode-map (kbd \"C-o J\") 'cider-restart)")
+    ["Use " [:code "⌘-i"] " to evaluate previous expression and display
+    result in minibuffer (I am on a Mac):"]
+    (code "      (define-key clojure-mode-map (kbd \"s-i\") 'cider-eval-last-sexp)")
+    ["Rather than showing in minibuffer, use " [:code "control-o y"] "
+    to insert the result DIRECTLY IN THE CODE:"]
+    (code "      (define-key clojure-mode-map (kbd \"C-o y\")
+        (lambda ()
+           (interactive)
+           (insert \"\\n;;=>\\n\")
+           (cider-eval-last-sexp 't))) ")
+    "As an example of using this, suppose I have the following Clojure code:"
+    (code "(range 100)
+|")
+    ["With the position of my cursor denoted by " [:code "|"] ", and I type "
+     [:code "control-o y"] ", I get:"]
+    (code "(range 100)
+;;=>
+(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48
+49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71
+72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94
+95 96 97 98 99)")
+    ["To see a video of this trick in action, check out this "
+     [:a {:href "https://vimeo.com/99980843"} "demonstration
+    video"] ". I find that using " [:code "cider-eval-last-sexp"] "
+    feels a little like working with the InstaREPL in "
+    [:a {:href "http://www.lighttable.com/"}
+     "Light Table"]
+    ", except that here you can actually preserve and edit the results
+     of expressions rather than just viewing them inline. This is
+     especially helpful for the style of semi-literate programming I
+     will describe in a coming post."]
+    ["Other Emacs plugins which I use and recommend are:"
+     [:ol
+      [:li [:a
+            {:href "https://github.com/clojure-emacs/clojure-mode"} "clojure-mode"] ",
+      which provides syntax coloring, indentation rules, and source
+      code navigation;"]
+      [:li [:a
+            {:href "https://github.com/jlr/rainbow-delimiters"} "rainbow-delimiters"] ",
+      which colorizes parentheses according to their nesting depth;
+      and,"]
+      [:li [:a
+            {:href "https://github.com/auto-complete/auto-complete"} "auto-complete"] ",
+      which provides IDE-like auto-completion. "]]]
+    ["To install Emacs packages, e.g. paredit, " [:code "M-x
+    install-package [RET] paredit"] ". Or, steal the code from "
+    [:a {:href
+         "https://github.com/eigenhombre/emacs-config/blob/master/init.el"}
+     "my init.el"] " file which installs and updates any missing
+     packages from a list of packages you define."]
+    "Conference talks and online videos are a great way to find Emacs
+    tricks to steal. For example, I’ve seen people run unit tests from
+    inside Emacs and display failures inline with the code, which is a
+    very cool trick, though not exactly what I want. The best way to
+    increase your Emacs-fu is to sit down with a grizzled Emacs guru
+    and compare notes and techniques. I wish I had more opportunities
+    to do this."
+    ["In " [:a {:href "testing,-continuously.html"} "the next post"]
+     ", we’ll talk about test-driven development and how
+     “RDD” (REPL-driven development) and TDD enhance and complement
+     each other."]))
