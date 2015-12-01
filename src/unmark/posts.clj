@@ -5,18 +5,23 @@
 (defpost "About"
   "I'm a software developer living (mostly) in Chicago, Illinois, USA.
    I currently work at OpinionLab, where I am a senior dev on their
-   backend Clojure team."  "I care about making outstanding software
+   backend Clojure team."
+
+  ["I care about making outstanding software
    and outstanding teams based on respect, communication, focus, care,
-   and craft.  I'm also passionate about art and science (I went to
-   graduate school in art and physics and have a doctorate in high
-   energy particle astrophysics)."
-   [[:a {:href "https://github.com/eigenhombre"} "GitHub"]
-    " | "
-    [:a {:href "http://stackoverflow.com/users/611752/johnj"} "StackOverflow"]
-    " | "
-    [:a {:href "https://twitter.com/eigenhombre"} "Twitter"]
-    " | "
-    [:a {:href "https://www.linkedin.com/in/eigenhombre"} "LinkedIn"]])
+   and craft.  I'm also passionate about "
+   [:a {:href "http://johnj.com"} "art"]
+   " and science (I went to graduate school in art and physics and
+   have a doctorate in high energy particle astrophysics)."]
+  [[:a {:href "https://github.com/eigenhombre"} "GitHub"]
+   " | "
+   [:a {:href "http://stackoverflow.com/users/611752/johnj"} "StackOverflow"]
+   " | "
+   [:a {:href "https://twitter.com/eigenhombre"} "Twitter"]
+   " | "
+   [:a {:href "https://www.linkedin.com/in/eigenhombre"} "LinkedIn"]
+   " | "
+   [:a {:href "https://github.com/eigenhombre/cv"} "Academic CV"]])
 
 
 (defpost "Working With Me"
