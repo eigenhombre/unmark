@@ -71,6 +71,7 @@
         (clojure.string/replace #"©" "&copy;")
         ;; FIXME: accent grave:
         (clojure.string/replace #"à" "a")
+        (clojure.string/replace #"⌘" "&#8984;")
         (clojure.string/replace #"(?:^|(?<=(?:\s+|\()))\"", "&ldquo;")
         (clojure.string/replace #"\"(?:$|(?=(?:\s+|\)|\;)))", "&rdquo;")
         (clojure.string/replace #"’" "&rsquo;")
