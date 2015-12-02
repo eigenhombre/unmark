@@ -9,8 +9,8 @@ somebody's JavaScript Web editor.
 
 # Why
 
-Approaches I've tried, with varying degrees of success, for my
-personal Web sites and blogs, since 1994:
+Since 1994, I've tried many approaches for creating personal Web sites
+and blogs:
 
 - Hand-written HTML
 - Hand-rolled Perl scripts
@@ -33,24 +33,27 @@ languages with elegant S-expression-based DSLs have been extremely
 positive.
 
 To this end, `unmark` eschews markup when possible, to leverage the
-full power and interactivity of Clojure.  Blog posts are just function
-calls:
-
+full power and interactivity of Clojure.  Blog posts are just Clojure
+expressions, leveraging functions for common idioms (e.g. `code`,
+`section`, `subsection`, `epigraph`, `blockquote`, `img`, etc.):
 
     (defpost "Introducing Unmark"
-      "unmark"                         ;; "slug" or short name
       (section "Introduction"
         "Unmark is a new blogging framework."
         ["Hiccup can be used " [:em "just about"] "everywhere."]
         "But undecorated paragraphs
          can just be strings..."
-	["(or vectors if you have "
-	 [:a {:href "https://en.wikipedia.org/wiki/Markup_language"}
-	     "markup"] " in the paragraph)."]))
+        ["(or vectors if you have "
+          [:a {:href "https://en.wikipedia.org/wiki/Markup_language"}
+	      "markup"] " in the paragraph)."]
+	(img "sample-img")  ;; JPG or PNG in img/ directory
+	(code "(quote This is some sample code)"))
+        ;; ...
+        )
 
-Right now this is experimental, and optimized for my own blog.  If it
-seems successful over time, I'll decouple the content generator from
-the content so that `unmark` can be useful for others.
+Right now this is optimized for my own blog.  If it seems successful
+over time, I'll decouple the content generator from the content so
+that `unmark` can be useful for others.
 
 # How
 

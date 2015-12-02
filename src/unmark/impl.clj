@@ -167,6 +167,7 @@ _gaq.push(['_trackPageview']);
   ([nom]
    (img nom nil)))
 
+
 (defn toc []
   [:ul
    (for [[date slug title]
