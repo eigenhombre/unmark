@@ -55,7 +55,7 @@
 (defn page-footer []
   [:div
    [:p
-    [:a {:href "about.html"} "about"] "|"
+    [:a {:href "about-me.html"} "about"] "|"
     [:a {:href "content.html"} "all posts"]]
    [:p "© " (year) " " [:a {:href "about.html"} "John Jacobsen"]
     ". Created with "
@@ -71,6 +71,7 @@
         (clojure.string/replace #"©" "&copy;")
         ;; FIXME: accent grave:
         (clojure.string/replace #"à" "a")
+        (clojure.string/replace #"é" "&eacute;")
         (clojure.string/replace #"⌘" "&#8984;")
         (clojure.string/replace #"(?:^|(?<=(?:\s+|\()))\"", "&ldquo;")
         (clojure.string/replace #"\"(?:$|(?=(?:\s+|\)|\;)))", "&rdquo;")
@@ -94,6 +95,10 @@
       [:label {:for ~cls :class "margin-toggle sidenote-number"}]
       [:input {:type "checkbox" :id ~cls :class "margin-toggle"}]
       [:span {:class "sidenote"} ~@txt]]))
+
+
+(defn blockquote [& txt]
+  `[:blockquote [:p ~@txt]])
 
 
 (defn epigraph [txt credit]
@@ -191,6 +196,7 @@
 
 (defn generate-blog! [target-dir]
   (copy-dir! target-dir "img")
+  (copy-dir! target-dir "static")
   (copy-dir! target-dir "tufte-css")
   (render target-dir "content.html" "Table of Contents" (toc) false)
   (doseq [[slug {:keys [title body]}] @posts]

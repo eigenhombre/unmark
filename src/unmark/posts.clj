@@ -2,7 +2,7 @@
   (:require [unmark.impl :refer :all]))
 
 
-(defpost "About"
+(defpost "About Me"
   "I'm a software developer living (mostly) in Chicago, Illinois, USA.
    I currently work at OpinionLab, where I am a senior dev on their
    backend Clojure team."
@@ -13,14 +13,18 @@
    [:a {:href "http://johnj.com"} "art"]
    " and science (I went to graduate school in art and physics and
    have a doctorate in high energy particle astrophysics)."]
-  [[:a {:href "https://github.com/eigenhombre"} "GitHub"]
-   " | "
+  [[:a {:href "mailto:eigenhombre@gmail.com"} "e-mail"]
+   " / "
+   [:a {:href "https://github.com/eigenhombre"} "GitHub"]
+   " / "
    [:a {:href "http://stackoverflow.com/users/611752/johnj"} "StackOverflow"]
-   " | "
+   " / "
    [:a {:href "https://twitter.com/eigenhombre"} "Twitter"]
-   " | "
+   " / "
    [:a {:href "https://www.linkedin.com/in/eigenhombre"} "LinkedIn"]
-   " | "
+   " / "
+   [:a {:href "static/jacobsen-2015.pdf"} "resumé"]
+   " / "
    [:a {:href "https://github.com/eigenhombre/cv"} "Academic CV"]])
 
 
@@ -55,8 +59,8 @@
           frequently combine REPL development and higher-level,
           end-to-end tests rather than testing slavishly at multiple
           levels of abstraction. I keep in mind the cost of tests in
-          terms of code \"stiffness\" and try to write the " [:em
-                                                              "right"] " tests."])
+          terms of code \"stiffness\" and try to write the "
+          [:emO "right"] " tests."])
     (subsection "Continuous Testing"
       "Most or all tests get run every time you save the file (at
          least), as often as once per minute or so. If your tests take
@@ -501,13 +505,13 @@ as directly as possible."]
   "Today I am inspired to ponder many languages at once and review
      which ones I use regularly, which ones I’m curious about, which
      ones I avoid, and what I’d like to use, if it were to exist."
-  (section "Programming Languages I Use Regularly"
-    (subsection "Python"
+  (subsection "Programming Languages I Use Regularly"
+    (subsubsection "Python"
       "By far the language I use most for work. I like it for its
          clean philosophy, its expressiveness, its \"batteries
          included\" extensive set of libraries, and, first and
          foremost, for its readability.")
-    (subsection "C"
+    (subsubsection "C"
       ["Of all the languages I use regularly, C is the one I
          learned first. I maintain a large Linux kernel device driver
          I wrote for the "
@@ -517,7 +521,7 @@ as directly as possible."]
          designed for the same."]
       "C now feels like assembly language to me but I still
          appreciate its power and elegance.")
-    (subsection "Clojure"
+    (subsubsection "Clojure"
       ["I have dabbled in Lisp since the 1980s but not seriously
          until recently. Somewhat seduced by Paul Graham’s "
        [:a {:href "http://www.paulgraham.com/avg.html"} "essays on Lisp"]
@@ -543,7 +547,7 @@ as directly as possible."]
        ". Clojure takes an interesting approach, with its
          emphasis on immutability, software-transactional memory and
          other concurrency primitives."])
-    (subsection "Bash / Unix Tools"
+    (subsubsection "Bash / Unix Tools"
       "It amuses me slightly to include bash here, but combining
          simple iteration with conditional statements and adding basic
          Unix concepts and tools such as pipelines, grep, awk, sed,
@@ -553,7 +557,7 @@ as directly as possible."]
          work. The results tend to be obscure and hard to parse; if I
          can do something in a single line of bash, I will; otherwise
          I’ll resort to Python for most things.")
-    (subsection "Javascript / Coffeescript"
+    (subsubsection "Javascript / Coffeescript"
       ["Not my favorite language by any stretch, but you can’t
          avoid it if you’re working in the browser (I don’t consider
          closed-source Flash an option). The language has a lot of
@@ -568,14 +572,14 @@ as directly as possible."]
         [:a {:href
              "http://lucumr.pocoo.org/2011/12/22/implicit-scoping-in-coffeescript/"}
          "some flaws of its own"] "."]))
-  (section "Programming Languages I Have Used in the Past but
+  (subsection "Programming Languages I Have Used in the Past but
                   Tend to Avoid"
-    (subsection "Perl"
+    (subsubsection "Perl"
       "I fell in love with the power of Perl (“the duct-tape of the
          Internet”) back in the 1990s, but now dislike its strange,
          ad-hoc syntax and the relative inscrutability when compared
          to Python.")
-    (subsection "Java"
+    (subsubsection "Java"
       ["I haven’t done a ton of Java development, but have done
          enough to be irritated by certain things about it: its
          extremely verbose syntax, strict typing, distance from the
@@ -590,19 +594,19 @@ as directly as possible."]
           Clojure and Scala will only strengthen the role of Java and
           the JVM in modern computing, unless Oracle massively screws
           things up.")
-    (subsection "C++"
+    (subsubsection "C++"
       "Another language I’ve played with a bit. A language that
          splits the difference between C and Java (I realize C++ came
          before Java); I would prefer to write in a “real” higher
          level language and glue C in where needed.")
-    (subsection "FORTRAN"
+    (subsubsection "FORTRAN"
       "I’m sorry to say that, coming from physics, I’ve written
          more FORTRAN code than I care to admit. I find it
          interesting, however, that while Lisp and FORTRAN are almost
          the same age, Lisp still holds interest where FORTRAN does
          not (except to pure number-crunchers, due to ancient and
          venerable numeric libraries)."))
-  (section "Languages I’m Curious About But Haven’t Had Time to
+  (subsection "Languages I’m Curious About But Haven’t Had Time to
                   Look At Much"
     "Exposure to purely functional programming and lazy evaluation
         in Clojure made me curious about Haskell."
@@ -622,7 +626,7 @@ as directly as possible."]
         content. I’m curious about expert systems, ontologies, the
         Semantic Web, and many other related areas of AI
         research.")
-  (section "The Language I Wish Existed"
+  (subsection "The Language I Wish Existed"
     " The perfect language would:"
     [:ol
      [:li "Be very readable, like Python (whitespace or other
@@ -1220,6 +1224,9 @@ $ conttest 'pep8 -r . ; nosetests'
 
 (defpost "Macro-writing Macros"
   {:created "2015-11-25"}
+  [:em "... in which we explore the power of macros, and macro-writing
+  macros, to DRY out repetitive code."]
+  (img "macro-sketch")
   "I've been writing Clojure full time for nearly two years now. I
   have a pretty good feel for the language, its virtues and its
   faults. Mostly, I appreciate its virtues (though I still wish the
@@ -1230,21 +1237,29 @@ $ conttest 'pep8 -r . ; nosetests'
   is that it makes metaprogramming more powerful and straightforward
   than it is in non-homoiconic languages (arguably at some cost to
   readability)."
-  "In Lisp, this metaprogramming is accomplished with macros, which
-  are functions that transform your code during a separate stage of
-  compilation. In other words, you write little programs to change
-  your programs before they execute."
+  ["In Lisp, this metaprogramming is accomplished with " [:em "macros"]
+   ", which are functions that transform your code during a separate
+  stage of compilation. In other words, you write little programs to
+  change your programs before they execute. In effect, you extend the
+  compiler itself."]
   "I run a Clojure study group at work and find that it can be hard to
-  explain the utility (or appeal) of this to newcomers to Lisp. When
-  pressed for examples on the spot, I often draw a blank. This is
-  partly because I don't often need to write them -- maybe one or two
-  a week, as opposed to hundreds of functions over the same time
-  period."
+  explain the utility (or appeal) of this to newcomers to Lisp. This
+  is partly because macros do things you can't easily do in other
+  languages, and because the things you want to do tend to relate to
+  abstractions latent in a particular codebase."
   ["While " [:a {:href "https://github.com/eigenhombre/moarquil"}
              "playing around with 3d rendering"]
    " in " [:a {:href "http://quil.info/"} "Quil"] ", I recently came
-   across the following use case which I find entertaining and
-   instructive."]
+   across a use case that reminded me of the following quote by Paul Graham:"
+   (blockquote "The shape of a program should reflect only the
+   problem it needs to solve. Any other regularity in the code is a
+   sign, to me at least, that I'm using abstractions that aren't
+   powerful enough-- often that I'm generating by hand the expansions
+   of some macro that I need to write"
+               (sidenote "Paul Graham, " [:em "Revenge of the Nerds"] ", "
+                         [:a {:href "http://www.paulgraham.com/icad.html"}
+                          "http://www.paulgraham.com/icad.html"])
+               ".")]
   "In Quil, there are multiple situations in which one needs to create
   a temporary context to carry out a series of operations, restoring
   the original state afterwards:"
@@ -1321,6 +1336,12 @@ $ conttest 'pep8 -r . ; nosetests'
       (vertex x2 y2 h)
       (vertex x1 y1 h)
       (vertex x1 y1 0))))")
+  ["In "
+   [:a {:href
+        "https://github.com/eigenhombre/moarquil/blob/master/src/moarquil/render.clj"}
+    "this example code"] ", the contexts " [:code "with-matrix"]
+    ", etc. appear so often that the resulting savings in lines of
+  code and mental overhead for the reader is substantial."]
   ["However, the astute reader will realize that the macro definitions
   themselves are pretty repetitive--in fact, they look almost
   identical except for the setup and teardown details (this kind of
@@ -1355,20 +1376,30 @@ $ conttest 'pep8 -r . ; nosetests'
   (code "(defcontext style (push-style) (pop-style))
 (defcontext shape (begin-shape) (end-shape))
 (defcontext matrix (push-matrix) (pop-matrix))")
-  ["These are exactly equivalent to the three context macros (" [:code
-                                                                 "with-*"] ") defined above."]
+  ["These are exactly equivalent to the three context macros ("
+   [:code "with-*"] ") defined above."]
   ["With a little effort, it's actually not too hard to construct such
   a nested macro. It's largely a matter of writing out the code you
   want to generate, and then writing the code that generates it,
   testing with "
-   [:code "macroexpand-1"] " at the REPL as you go. " [:a
-                                                       {:href "http://hubpages.com/technology/Clojure-macro-writing-macros"} "This
-  page by A. Malloy"] " has a lot of helpful remarks, including this
-  cautionary note: \"Think twice before trying to nest macros: it's
-  usually the wrong answer.\" In this case, I actually think it's the
-  right answer, because the pattern of a context with setup and
-  teardown is so common that I know I'll reuse this macro for many
-  other things."]
+   [:code "macroexpand-1"] " at the REPL as you go. "
+   [:a {:href "http://hubpages.com/technology/Clojure-macro-writing-macros"}
+    "This page by A. Malloy"] " has a lot of helpful remarks,
+  including this cautionary note: \"Think twice before trying to nest
+  macros: it's usually the wrong answer.\" In this case, I actually
+  think it's the right answer, because the pattern of a context with
+  setup and teardown is so common that I know I'll reuse this macro
+  for many other things--we have effectively added one of
+  my favorite Python features to Clojure in just a few lines of
+  code"
+    (sidenote "To be even more like Python's context managers, "
+              [:code "defcontext"] " would want to enable the user to
+              bind some local state resulting from the setup phase of
+              execution (\"" [:code "with x() as y:"] "&rdquo; idiom);
+              examples include file descriptors or database
+              connections.  This is left as an exercise for the
+              reader.")
+    "."]
   ["There's a saying in the Clojure community: " [:code "data >
   functions > macros"] ". I'm a big believer in this. Clojure's
   powerful built-in abstractions for wrangling data in all its forms
@@ -1387,9 +1418,10 @@ $ conttest 'pep8 -r . ; nosetests'
    [:em "I talk about the value of paredit in Emacs
   and show a trick which allows you to insert the result of any given
   Clojure expression directly underneath that expression."]]
-  ["As I said in the " [:a {:href
-                            "http://eigenhombre.com/clojure/2014/07/03/an-advanced-clojure-workflow/"}
-                        "first post"] ", a good set of tools can make a big difference in
+  ["As I said in the "
+   [:a {:href
+        "http://eigenhombre.com/clojure/2014/07/03/an-advanced-clojure-workflow/"}
+    "first post"] ", a good set of tools can make a big difference in
   productivity and enjoyment while working in any language, and
   Clojure is certainly no exception. The most important tool in your
   toolbox, regardless of language, is your editor. Editing Lisp code
@@ -1613,8 +1645,9 @@ $ conttest 'pep8 -r . ; nosetests'
      [:a {:href "http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html"}
       "the practice seems to be particularly controversial"] " in the
       Rails community. I don’t want to go too deep into the pros and
-      cons of TDD other than to say " [:a {:href
-      "continuous-testing-in-python,-clojure-and-blub.html"} "once
+      cons of TDD other than to say "
+      [:a {:href
+           "continuous-testing-in-python,-clojure-and-blub.html"} "once
       again"] " that the practice has
       saved my bacon so many times that I try to minimize the amount
       of code I write that doesn’t begin life as a response to a
