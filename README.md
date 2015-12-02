@@ -45,9 +45,9 @@ expressions, leveraging functions for common idioms (e.g. `code`,
          can just be strings..."
         ["(or vectors if you have "
           [:a {:href "https://en.wikipedia.org/wiki/Markup_language"}
-	      "markup"] " in the paragraph)."]
-	(img "sample-img")  ;; JPG or PNG in img/ directory
-	(code "(quote This is some sample code)"))
+               "markup"] " in the paragraph)."]
+        (img "sample-img")  ;; JPG or PNG in img/ directory
+        (code "(quote This is some sample code)"))
         ;; ...
         )
 
