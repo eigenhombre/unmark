@@ -205,7 +205,7 @@ _gaq.push(['_trackPageview']);
 
 
 (defn copy-dir! [target-dir local-dir]
-  (copy-dir local-dir (str target-dir "/" local-dir)))
+  (copy-dir local-dir (str target-dir "/")))
 
 
 (defn generate-blog! [target-dir]
