@@ -1823,3 +1823,141 @@ the next post."))
             :src "http://www.youtube.com/embed/v9VUk9xB6co"
             :frameborder 0
             :allowfullscreen true}])
+
+
+(defpost "Resources for Learning Clojure"
+  {:created "2012-05-21"}
+  ["I thought I’d take a moment to present one possible path, or set of
+  alternate paths, for learning Clojure, a modern Lisp implemented on
+  top of the Java Virtual Machine."
+   (sidenote
+    [:em "Update"] ": Since this was written in 2012, a number of
+  additional excellent books have come out. These include Carin
+  Meier's "
+    [:a {:href "http://shop.oreilly.com/product/0636920034292.do"}
+     [:em "Living Clojure"]]
+    "; Vandgrift and Miller, "
+    [:a {:href "https://pragprog.com/book/vmclojeco/clojure-applied"}
+     [:em "Clojure Applied"]] "; and Daniel Higginbotham's, "
+     [:a {:href "http://www.braveclojure.com/"}
+      [:em "Clojure for the Brave and True"]] ". These are all great choices,
+  and Clojure for the Brave and True is a strong competitor for the
+  best introductory Clojure book.")]
+  "In addition to a surprising number of very good resources out there
+  for such a young language, there are resources specific to other
+  Lisps which map reasonably well onto Clojure."
+  "Clojure does have a learning curve, especially for one coming from
+  imperative languages such as Java, Python, C++, or Ruby. These
+  languages are, in some ways, more similar to each other than they
+  are to functional languages such as Clojure (though they all have
+  features which were pioneered originally in implementations of Lisp,
+  one of the oldest computer languages)."
+  "Since the approach I took was somewhat haphazard and I have the
+  benefit of some hindsight now, I present here a rough sequence which
+  might make the road a little less bumpy for others. Though not an
+  exhaustive list of resources by any means, the following diagram
+  summarizes the discussion points that follows."
+  (img "learnclojure2")
+  "The approach I recommend goes something like this:"
+  ["If you are going to pick just one of these resources to get
+  started, I recommend the O’Reilly book "
+   [:a {:href "http://www.clojurebook.com/"} "Clojure Programming"]
+   " by C. Emerick et. al. I have both the PDF and print versions of
+  this book, and it’s not only an excellent book on Clojure, it’s one
+  of the best O’Reilly books I’ve seen in the dozen or so years I’ve
+  been reading them. The other two books are also good (I have not
+  checked out the 2nd edition of Programming Clojure yet)… Clojure is
+  particularly blessed in having not just one but at least three
+  excellent “starter books” on the language."]
+  ["If you’re curious why one might want to learn a Lisp as your next
+  (or last?) programming language, Paul Graham "
+   [:a {:href "http://www.paulgraham.com/avg.html"} "evangelizes"]
+   " very effectively about Lisp in some of his many "
+   [:a {:href "http://www.paulgraham.com/articles.html"}
+    "essays"] ". You might want to check those out before diving into
+  Clojure per se."]
+  ["Additionally, videos of Rich Hickey’s talks, particularly "
+   [:a {:href "videos"} "Simple Made Easy"] " , though not so much
+  about Lisp or Clojure per se, explain the challenges and limitations
+  involved with stateful Object-Oriented programming and motivate the
+  ideas behind functional programming in general and Clojure in
+  particular. I very much recommend these videos, though reaction to
+  them among programmers I’ve shown them to has varied wildly from
+  enthusiasm to extreme irritation."]
+  ["People with exposure to Common Lisp or Scheme may be familiar with
+  Abelson and Sussman’s "
+   [:a {:href "http://mitpress.mit.edu/sicp/"}
+    "Structure and Interpretation of Computer Programs"]
+   " ; Friedman’s "
+   [:a {:href "http://www.ccs.neu.edu/home/matthias/BTLS/"}
+    "The Little Schemer"] " and its sequels "
+    [:a {:href "http://www.ccs.neu.edu/home/matthias/BTSS/"}
+     "The Seasoned Schemer"] " and
+  " [:a {:href "http://www.ccs.neu.edu/home/matthias/BRS/"}
+     "The Reasoned Schemer"]
+  " ; and P. Seibel’s "
+  [:a {:href "http://www.gigamonkeys.com/book/"}
+   "Practical Common Lisp"] ", which I’ve only peeked at but which has
+  an excellent reputation. These books could provide a gateway into
+  Clojure, or might merit a look at once you’ve got some Clojure
+  basics under your belt. I find them to be interesting supplemental
+  reading."]
+  ["Before getting to the more advanced books, the
+  " [:a {:href "https://github.com/functional-koans/clojure-koans"}
+     "Clojure Koans"] " are a
+  fun and pleasantly gradual way to start reinforcing your Clojure
+  basics (I worked most of them on various airplane flights to the
+  South Pole last year). Similar but somewhat more challenging are the
+  " [:a {:href "http://4clojure.org/"} "4clojure problems"]
+  " (I’m about 3/4 of the way through these)."]
+  "I find these kinds of problems alternately soothing (when I get
+  them right away) and maddening (when I actually have to work at
+  them). They are like crossword puzzles for programmers, and they do
+  really help reinforce the material from the books. Due to the way
+  the problems are implemented, they are unfortunately limited in
+  terms of how they cover Java interoperability, macros, and
+  concurrency."
+  ["After you’ve read an introductory text, worked some problems and
+  maybe started one or two personal projects with the language, you’re
+  ready for
+  " [:a {:href "http://joyofclojure.com/"} "The Joy of Clojure"]
+  ". This book is somewhat hard to describe; I started it too early,
+  then came back after six months and it make a whole lot more
+  sense. The best way to explain The Joy of Clojure is that it helps
+  you to understand both some of the quirks of the language and what
+  makes it truly great, and will help you evolve from writing clumsy
+  translations of what you’ve learned in other languages, to truly
+  compact, elegant, idiomatic Clojure code."]
+  ["After, or perhaps during, Joy of Clojure, take a deep dive into
+  macros, the secret sauce of Lisp. Macros allow one to implement new
+  language features in order to make one’s code elegant and
+  expressive, and to optimize the fit to one’s problem domain. Paul
+  Graham’s
+  " [:a {:href "http://www.paulgraham.com/onlisp.html"} "On Lisp"]
+  " is mostly about macros; Hoyte’s
+  " [:a {:href "http://letoverlambda.com/"} "Let over Lambda"] "
+  refers to On Lisp many times and builds on some of the foundations
+  laid in that book."]
+  ["To summarize (strongest suggestions in " [:strong "bold"] "):"]
+  [:ol
+   [:li "Graham essays"]
+   [:li "Hickey videos"]
+   [:li "Introductory book (" [:strong "Clojure Programming"] ",
+   Programming Clojure, or Practical Clojure)"]
+   [:li "Possibly detour into SICP, Practical Common Lisp and/or The *
+   Schemer books"]
+   [:li "Clojure Koans"]
+   [:li "4Clojure Problems"]
+   [:li [:strong "Joy of Clojure"]]
+   [:li "On Lisp"]
+   [:li "Let Over Lambda"]]
+  ["There are many other Lisp books which I haven’t read yet, as well
+  as a Clojure book or two I’ve left out. Also, lest I forget, the
+  Clojure community has a reputation for being extremely welcoming and
+  helpful. There is a "
+   [:a {:href "http://groups.google.com/group/clojure"} "Google
+  Group"]
+   " / mailing list and an IRC chat as well."]
+  "The bottom line is that for such a young language (or young variant
+  of an old language), we are fortunate to have such a rich selection
+  of resources to pick and choose from. Enjoy!")
