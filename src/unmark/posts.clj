@@ -1727,9 +1727,11 @@ finally:
   ["Python, not having macros, must include context managers as part of
   the language. Since 2.5, it does so, providing an easy mechanism for
   rolling your own. Though the default, \"low level\" way to make a
-  context manager is to make a class which follows the " [:a {:href
-  "http://docs.python.org/2/library/stdtypes.html#typecontextmanager"}
-  "context  management protocol"] ", by implementing " [:code "__enter__"] " and
+  context manager is to make a class which follows the "
+   [:a {:href
+        "http://docs.python.org/2/library/stdtypes.html#typecontextmanager"}
+    "context management protocol"] ", by
+    implementing " [:code "__enter__"] " and
   " [:code "__exit__"] " methods,
   the simplest way is using the " [:code "contextmanager"] " decorator from the
   contextlib library, and invoking " [:code "yield"] " in your context manager
@@ -1793,3 +1795,31 @@ to where it is actually needed (and not everywhere else). Careful
 isolation of state is an important aspect of functional programming."
   "More on the use of context managers in actual integration tests in
 the next post."))
+
+
+(defpost "Managing the Most Remote Data Center in the World"
+  {:created "2010-07-30"}
+  ["This video is from an interview I did with James Turner at OSCON
+  in July of 2010."]
+  ["From "
+   [:a
+    {:href (str "http://it.slashdot.org/story/10/07/23/1142249/"
+                "Managing-the-Most-Remote-Data-Center-In-the-World")}
+    "Slashdot"] ":"]
+  "“Imagine that your data center was in the most geographically
+  remote location in the world. Now imagine that you can only get to
+  it 4 months of the year. Just for fun, add in some of the most
+  extreme weather conditions in the world. That’s the challenge that
+  faces John Jacobsen, one of the people responsible for making sure
+  that the data from the IceCube Neutrino Observatory makes it all the
+  way from the South Pole to researchers across the world. In an
+  interview recorded at OSCON, Jacobsen talks about the problems that
+  he has to face (video), which includes (surprisingly) keeping the
+  data center cool. If you’re ever griped because you had to haul
+  yourself across town in the middle of the night to fix a server
+  crash, this interview should put things in perspective.”"
+  [:iframe {:width 560
+            :height 315
+            :src "http://www.youtube.com/embed/v9VUk9xB6co"
+            :frameborder 0
+            :allowfullscreen true}])
