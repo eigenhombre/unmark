@@ -41,11 +41,12 @@
     satisfying to get things done quickly, and I like hard problems
     that make me grow, think, and do things I never imagined
     possible. I like a mix of coding solo and working closely with
-    others. I like working in beautiful environments that stoke
-    creativity and passion. I am opinionated, especially with regards
-    to the tools and approaches I've arrived at through many years of
-    growth, but I love learning new things from thoughtful people who
-    are good at their craft.")
+    others, the latter case especially if teaching can occur. I like
+    working in beautiful environments that stoke creativity and
+    passion. I am opinionated, especially with regards to the tools
+    and approaches I've arrived at through many years of growth, but I
+    love learning new things from thoughtful people who are good at
+    their craft.")
   (section "Practices I Like"
     (subsection "\"Test First\""
       ["I am not a TDD zealot, but I've had my tuchas saved many times
@@ -59,8 +60,8 @@
           frequently combine REPL development and higher-level,
           end-to-end tests rather than testing slavishly at multiple
           levels of abstraction. I keep in mind the cost of tests in
-          terms of code \"stiffness\" and try to write the "
-          [:emO "right"] " tests."])
+          terms of code \"stiffness,\" and try to write the "
+          [:em "right"] " tests."])
     (subsection "Continuous Testing"
       "Most or all tests get run every time you save the file (at
          least), as often as once per minute or so. If your tests take
@@ -74,20 +75,27 @@
           blocks, switching pairs twice a day (and solo programming or
           going to meetings the rest of the time)."]
       "This practice, while often tiring, is a great teaching
-         technique.  At any given time, there is little tactical
-         knowledge that I have that I don't trust my teammates to
-         have, and vice-versa. People who practice promiscuous pairing
-         (including us) relate the pleasures of teaching a technique
-         to someone and then seeing another teammate using the same
-         technique a short time later.")
-    (subsection "Solo Programming")
+       technique.  At any given time, there is little tactical
+       knowledge that I have that I don't trust my teammates to have,
+       and vice-versa. People who practice promiscuous pairing
+       (including us) relate the pleasures of teaching a technique to
+       someone and then seeing another teammate using the same
+       technique a short time later.")
+    (subsection "Solo Programming"
+      "As much as I value pair programming, I get great satisfaction
+       from immersing myself in a hard problem, exploring different
+       paths, researching approaches, and pushing against the walls of
+       possibility until the walls crumble and a new vista opens in
+       front of me. This sort of immersion comes most naturally if I
+       have long stretches of uninterrupted time, something that,
+       admittedly, can be hard to come by.")
     (subsection "Retrospectives")
     (subsection "Kanban over Scrum")
     (subsection "Clean code"
-      "Whenever I touch a piece of code, I try to leave it in better shape
-         than I found it in.  I use style guides and build style checking
-         tools into automated builds, because I've found that better and more
-         readable code results.")
+      "Whenever I touch a piece of code, I try to leave it in better
+       shape than I found it in.  I use style guides and build style
+       checking tools into automated builds, because I've found that
+       better and more readable code results.")
     (subsection "Continuous Integration"))
   (section "Default Tools"
     "I use the following tools on a daily or near-daily basis."
