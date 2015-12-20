@@ -25,7 +25,20 @@
    " / "
    [:a {:href "static/jacobsen-2015.pdf"} "resumé"]
    " / "
-   [:a {:href "https://github.com/eigenhombre/cv"} "Academic CV"]])
+   [:a {:href "https://github.com/eigenhombre/cv"} "Academic CV"]]
+  (subsubsection "Art Things"
+    [[:a {:href "http://johnj.com"} "Art / Personal Site"]
+     " / "
+     [:a {:href "http://toomanysketchbooks.tumblr.com"} "Too Many Sketchbooks"]
+     " / "
+     [:a {:href "http://toomanyfiguredrawings.tumblr.com"}
+      "Too Many Figure Drawings"]
+     " / "
+     [:a {:href "http://parentheticalworlds.tumblr.com"}
+      "Parenthetical Worlds"]
+     " / "
+     [:a {:href "http://bit.ly/viewsfromthecommute"}
+      "Views from the Commute"]]))
 
 
 (defpost "Working With Me"
@@ -1841,7 +1854,7 @@ the next post."))
      [:em "Clojure Applied"]] "; and Daniel Higginbotham's, "
      [:a {:href "http://www.braveclojure.com/"}
       [:em "Clojure for the Brave and True"]] ". These are all great choices,
-  and Clojure for the Brave and True is a strong competitor for the
+  and " [:em "Clojure for the Brave and True"] " is a strong competitor for the
   best introductory Clojure book.")]
   "In addition to a surprising number of very good resources out there
   for such a young language, there are resources specific to other
